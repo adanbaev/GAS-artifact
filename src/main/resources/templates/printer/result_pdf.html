@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Бланк</title>
+
+  <style>
+    @page { size: A4 portrait; margin: 0mm; }
+    html, body { font-family: "DejaVu Sans", Arial, sans-serif; }
+    body { margin: 0; padding: 0; }
+    a { color: #000; text-decoration: none; }
+    .toggle { border: 1px solid #000; display: inline-block; min-width: 18px; text-align: center; }
+    u { margin: 0 9px; }
+  </style>
+</head>
+<body>
+
+<div style="page-break-inside: avoid;" th:each="item: ${items}">
+
+  <!-- COMPLEX -->
+  <div th:if="${item.isComplex} == true">
+    <table>
+      <tbody>
+      <tr>
+        <th><big>КЫРГЫЗ РЕСПУБЛИКАСЫНЫН САНАРИПТИК <br>
+          ӨНҮКТҮРҮҮ&nbsp;МИНИСТРЛИГИНЕ <br>
+          КАРАШТУУ&nbsp;БАЙЛАНЫШ
+          ТАРМАГЫНДА&nbsp;ЖӨНГӨ САЛУУ <br> ЖАНА КӨЗӨМӨЛДӨӨ БОЮНЧА&nbsp;КЫЗМАТЫ<br>
+          720055,&nbsp;Бишкек&nbsp;ш.,&nbsp;Ахунбаева&nbsp;көч.,119<br>
+          Тел:(312)&nbsp;544103, Факс:(312)&nbsp;544105</big></th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th><big> СЛУЖБА ПО РЕГУЛИРОВАНИЮ   <br> И НАДЗОРУ В ОТРАСЛИ СВЯЗИ
+          ПРИ МИНИСТЕРСТВЕ  <br>  ЦИФРОВОГО РАЗВИТИЯ <br> КЫРГЫЗСКОЙ РЕСПУБЛИКИ<br>
+          720055,&nbsp;г.Бишкек,&nbsp;ул.Ахунбаева,119;<br> Тел: (312)&nbsp;544103, Факс:(312)&nbsp;544105
+        </big></th>
+      </tr>
+      </tbody>
+    </table>
+
+    <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <b><i>Частотное присвоение</i> № [[${item.ownerType.value}]] [[${item.licNumber}]] </b>
+
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <big><b class="toggle">X</b>&nbsp;
+      <b>
+        <span th:if="${item.purpose == T(kg.gov.nas.licensedb.enums.Purpose).COM}">Для коммерческих целей</span>
+        <span th:if="${item.purpose == T(kg.gov.nas.licensedb.enums.Purpose).PRO}">Для производственных целей</span>
+      </b>
+    </big>
+
+    <big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b class="toggle">Х</b>&nbsp;
+      <b>
+        <span th:if="${item.regStatus == T(kg.gov.nas.licensedb.enums.RegStatus).PEREREGISTR}">перерегистрация</span>
+        <span th:if="${item.regStatus == T(kg.gov.nas.licensedb.enums.RegStatus).REGISTR}">регистрация</span>
+      </b></big>
+
+    <br> <br>    <br><br>
+
+    <big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span th:if="${item.basis == T(kg.gov.nas.licensedb.enums.OwnerBasis).SECONDARY}">ЧАСТОТНОЕ ПРИСВОЕНИЕ ВЫДАНО НА ВТОРИЧНОЙ ОСНОВЕ</span>
+        <span th:if="${item.basis == T(kg.gov.nas.licensedb.enums.OwnerBasis).PRIMARY}">ЧАСТОТНОЕ ПРИСВОЕНИЕ ВЫДАНО НА ПЕРВИЧНОЙ ОСНОВЕ</span>
+      </small><br>
+      <b><u>_______________________________________________________________________________________________________</u></b></big><br>
+
+    <table border="0" style="height: inherit; padding-bottom: 0px; margin-bottom: 10px;">
+      <tbody><tr>
+        <td style="padding: 7px;  font-size: 20px; ">
+          <b>Адрес владельца радиостанции:</b>
+          <b> <span th:if="${item.town != null}" th:text="${item.town}"></span>
+            <span th:if="${item.street != null}">,&nbsp;</span> [[${item.street}]] <span
+              th:if="${item.house != null}">,&nbsp;</span> [[${item.house}]] <span
+              th:if="${item.flat != null}">,&nbsp;</span>[[${item.flat}]] </b>
+          <br>
+          <b>Телефон:[[${item.phone}]] </b>
+          <br>
+          <b>Факс: [[${item.fax}]]</b>
+        </td>
+        <td style="padding: 5px; text-align: left; font-size: 18px;">
+          <b> Действительно до:</b><i> [[${item.expireDateTxt}]]  г. </i><br>
+          <b>ИД № [[${item.ownerId}]]</b><br>
+          <b>ИНН № [[${item.inn}]]</b><br>
+        </td>
+      </tr></tbody></table>
+
+    <br> <br> <big><b>Владелец радиостанции: [[${item.ownerName}]] </b> </big> <br><br>
+
+    <big><b style="font-size: large">Пункт установки радиостанции:</b></big><big> <b style="font-size: large"> [[${item.sites[0].point}]] </b>
+  </big> <br><br>
+
+    <table border="1" style="width: inherit; height: inherit; padding-bottom: 0px; padding-top: 0px; margin-bottom: 0px;">
+      <tbody><tr><td colspan="2" style="padding: 5px;"><b> Координаты пункта установки станции </b>&nbsp;&nbsp;&nbsp;</td></tr>
+      <tr>
+        <td style="padding: 10px;"><b>  Долгота:
+          <span th:if="${item.sites[0].longitude0 != null}">0</span>[[${item.sites[0].longitude0}]]<span
+            th:if="${item.sites[0].longitude0 != null}">°</span>
+          [[${item.sites[0].longitude1}]]<span th:if="${item.sites[0].longitude1 != null}">'</span>
+          [[${item.sites[0].longitude2}]]<span th:if="${item.sites[0].longitude2 != null}">''</span>
+        </b></td>
+        <td style="padding: 10px;"><b>  Широта:
+          <span th:if="${item.sites[0].latitude0 != null}">0</span>[[${item.sites[0].latitude0}]]
+          <span th:if="${item.sites[0].latitude0 != null}">°</span>
+          [[${item.sites[0].latitude1}]]<span th:if="${item.sites[0].latitude1 != null}">'</span>
+          [[${item.sites[0].latitude2}]]<span th:if="${item.sites[0].latitude2 != null}">''</span>
+        </b></td>
+      </tr></tbody>
+    </table>
+
+    <br> <br>  <br>
+    <table border="1" style="width: 1000px; height: inherit; padding-bottom: 0px; padding-top: 0px; margin-bottom: 10px; text-align: center;">
+      <tbody>
+      <tr>
+        <td><b> Основные параметры	</b></td>
+        <td><b> 	 1	</b></td>
+        <td><b> 	2	</b></td>
+        <td> <b> 	3	</b></td>
+        <td> <b>	4	</b></td>
+      </tr>
+      <tr><td style="width: 206px; height: 370px; text-align: left;"><b>Направление передачи	<br> <br>
+        Геогр.координаты(прием) <br><br>
+        Тип передатчика   <br><br>
+        Мощность <br><br>
+        Высота антенны, м <br><br>
+        Тип поляризации<br><br>
+        Тип антенны <br><br>
+        Коэфф.усил.антенны, дБ<br><br>
+        Обозначение излучения<br><br>
+        Разрешенные частоты	</b>  <br><br><br><br>
+      </td>
+        <td style="width: 198px; height: 370px;"><small>
+          [[${item.sites[1].point}]]
+          <br><br>  В.Д:<span th:if="${item.sites[1].longitude0 != null}">0</span>[[${item.sites[1].longitude0}]]<span
+          th:if="${item.sites[1].longitude0 != null}">°</span>
+          [[${item.sites[1].longitude1}]]<span th:if="${item.sites[1].longitude1 != null}">'</span>
+          [[${item.sites[1].longitude2}]]<span th:if="${item.sites[1].longitude2 != null}">''</span>;
+          С.Ш:<span th:if="${item.sites[1].latitude0 != null}">0</span>[[${item.sites[1].latitude0}]]
+          <span th:if="${item.sites[1].latitude0 != null}">°</span>
+          [[${item.sites[1].latitude1}]]<span th:if="${item.sites[1].latitude1 != null}">'</span>
+          [[${item.sites[1].latitude2}]]<span th:if="${item.sites[1].latitude2 != null}">''</span>;
+          <br><br>  [[${item.sites[1].transType}]]
+          <br> <br> [[${item.sites[1].transPower}]] Вт
+          <br> <br> [[${item.sites[1].highlight}]]&nbsp;м
+          <br> <br> [[${item.sites[1].polar.value}]]
+          <br><br>  [[${item.sites[1].antType}]]
+          <br> <br> [[${item.sites[1].antKU}]]
+          <br><br>   [[${item.sites[1].desc}]]
+          <br><br>  [[${item.sites[1].allowed}]]
+        </small>
+        </td>
+        <td style="width: 199px; height: 370px;"><small></small></td>
+        <td style="width: 199px; height: 370px;"><small></small></td>
+        <td style="width: 184px; height: 370px;"><small></small></td>
+      </tr></tbody>
+    </table>
+
+    <table>
+      <tbody>
+      <tr><td colspan="2" style="text-align: left; width:550px; "><big><big><b> Дата выдачи: &nbsp;&nbsp;  [[${item.issueDateTxt}]]  г.</b></big></big></td>
+        <td style=" width:300px; text-align:left;"><small>Условия использования частотного присвоения,<br>приведенные на обратной стороне,являются <br> неотъемлемой частью данного частотного присвоения. </small></td></tr>
+
+      <tr>
+        <td colspan="4" style="padding: 3px; text-align: center;"><br> <br><br> <b><big><big><i>Председатель___________________________ Токторбаев А.К.</i></big></big></b></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SIMPLE -->
+  <div th:if="${item.isComplex} == false">
+    <table>
+      <tbody>
+      <tr>
+        <th>КЫРГЫЗ РЕСПУБЛИКАСЫНЫН САНАРИПТИК <br>
+          ӨНҮКТҮРҮҮ&nbsp;МИНИСТРЛИГИНЕ <br>
+          КАРАШТУУ&nbsp;БАЙЛАНЫШ
+          ТАРМАГЫНДА&nbsp;ЖӨНГӨ САЛУУ <br> ЖАНА КӨЗӨМӨЛДӨӨ БОЮНЧА&nbsp;КЫЗМАТЫ<br>
+          720055,&nbsp;Бишкек&nbsp;ш.,&nbsp;И.Ахунбаев&nbsp;көч.,119,<br>
+          Тел:(312)&nbsp;544103, Факс:(312)&nbsp;544105
+        </th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th> СЛУЖБА ПО РЕГУЛИРОВАНИЮ <br> И НАДЗОРУ В ОТРАСЛИ СВЯЗИ
+          ПРИ МИНИСТЕРСТВЕ <br> ЦИФРОВОГО РАЗВИТИЯ <br> КЫРГЫЗСКОЙ РЕСПУБЛИКИ<br>
+          720055,&nbsp;г.Бишкек,&nbsp;ул.И.Ахунбаева,119 <br> Тел: (312)&nbsp;544103, Факс:(312)&nbsp;544105
+        </th>
+      </tr>
+      </tbody>
+    </table>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b style="margin: 0; font-size: 36px;"><i>Частотное присвоение </i> № [[${item.ownerType.value}]] [[${item.licNumber}]] </b>
+    <br> <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b style="margin: 0; font-size: 22px;">на право эксплуатации радиоэлектронных средств </b> <br> <br>
+    <br><br>
+
+    <table style="vertical-align: top; width: 100%; height: 0; padding: 0px 100px; text-align: left; ">
+      <tbody>
+      <tr>
+        <th>
+          <b class="toggle">&nbsp;&nbsp;<span th:if="${item.basis == T(kg.gov.nas.licensedb.enums.OwnerBasis).PRIMARY}">X</span></b>&nbsp;
+          <b style="margin: 0; font-size: 24px;">Первичная основа </b> <br><br>
+          <b class="toggle">&nbsp;<span th:if="${item.regStatus == T(kg.gov.nas.licensedb.enums.RegStatus).REGISTR}">X</span>&nbsp;</b>&nbsp;
+          <b style="margin: 0; font-size: 24px;">Выдача </b><br><br>
+          <b class="toggle">&nbsp;<span th:if="${item.purpose == T(kg.gov.nas.licensedb.enums.Purpose).COM}">X</span>&nbsp;</b>&nbsp;
+          <b style="margin: 0; font-size: 24px;">Для коммерческих целей</b>
+        </th>
+        <th> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th>
+          <b class="toggle"><span th:if="${item.basis == T(kg.gov.nas.licensedb.enums.OwnerBasis).SECONDARY}">X</span></b>&nbsp;<b
+          style="margin: 0; font-size: 24px;"> Вторичная основа </b> <br><br>
+          <b class="toggle">&nbsp;<span th:if="${item.regStatus == T(kg.gov.nas.licensedb.enums.RegStatus).PEREREGISTR}">X</span>&nbsp;</b>&nbsp;<b
+          style="margin: 0; font-size: 24px;">Переоформление </b> <br><br>
+          <b class="toggle">&nbsp;<span th:if="${item.purpose == T(kg.gov.nas.licensedb.enums.Purpose).PRO}">X</span>&nbsp;</b>&nbsp;
+          <b style="margin: 0; font-size: 24px;">Для производственных целей </b>
+        </th>
+      </tr>
+      </tbody>
+    </table>
+
+    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<b>Владелец радиостанции: [[${item.ownerName}]] </b>
+
+    <table border="0" style="height: inherit; padding-bottom: 0px; margin-bottom: 10px;">
+      <tbody>
+      <tr>
+        <td style="padding: 10px;  font-size: 18px;">
+          <b>№ лицензии</b> <b>нет </b>
+          <br>
+          <b>от г. </b>
+
+          <br><br>
+          <b>Адрес владельца радиостанции:</b> <b> <span th:if="${item.town != null}" th:text="${item.town}"></span>
+          <span th:if="${item.street != null}">,&nbsp;</span> [[${item.street}]] <span
+            th:if="${item.house != null}">,&nbsp;</span> [[${item.house}]] <span
+            th:if="${item.flat != null}">,&nbsp;</span>[[${item.flat}]] </b>
+          <br>
+          <b>Телефон:[[${item.phone}]] </b>
+          <br>
+          <b>Факс: [[${item.fax}]]</b>
+        </td>
+        <td style="padding: 10px; text-align: left; font-size: 18px;">
+          <b>ИД № [[${item.ownerId}]]</b><br>
+          <b>ИНН № [[${item.inn}]]</b><br>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div th:each="site: ${item.sites}">
+      &nbsp;&nbsp;&nbsp;&nbsp;<b style="font-size: large">Пункт установки радиостанции:</b> <b style="font-size: large"> [[${site.point}]] </b>
+
+      <table style="border: none;">
+        <tbody>
+        <tr>
+          <td style="vertical-align:top;margin-right:18px;display:block; border: 2px solid black; padding: 0 7px; max-width: 525px;">
+            <p style="margin: 0; text-align: left; margin-left: 30px;">
+              <b>Характеристики частотного присвоения:</b>
+              <br>
+              <b>Координаты пункта установки станции:</b>
+            </p>
+            <b>Долгота: <span th:if="${site.longitude0 != null}">0</span>[[${site.longitude0}]]<span
+              th:if="${site.longitude0 != null}">°</span>
+              [[${site.longitude1}]]<span th:if="${site.longitude1 != null}">'</span>
+              [[${site.longitude2}]]<span th:if="${site.longitude2 != null}">''</span>
+              Широта:
+              <span th:if="${site.latitude0 != null}">0</span>[[${site.latitude0}]]
+              <span th:if="${site.latitude0 != null}">°</span>
+              [[${site.latitude1}]]<span th:if="${site.latitude1 != null}">'</span>
+              [[${site.latitude2}]]<span th:if="${site.latitude2 != null}">''</span>
+            </b>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <br><br>
+
+            <p style="margin: 0; font-size: 20px;"><b>Обозначение излучения:</b><b> [[${site.designationSimple}]] </b></p>
+            <p style="margin: 0; font-size: 20px;"><b>Тип антенны:</b><b> [[${site.antType}]] </b></p>
+            <p style="margin: 0; font-size: 20px;"><b>Тип передатчика: <b> [[${site.transType}]] </b></b></p>
+            <p style="margin: 0; font-size: 20px;"><b>Азимут макс. изл. антенны: [[${site.asimut}]] </b></p>
+            <p style="margin: 0; font-size: 20px;"><b>Высота антенны, м: [[${site.highlight}]]</b></p>
+            <p style="margin: 0; font-size: 20px;"><b><b>Тип поляризации: [[${site.polar.value}]]</b></b></p>
+            <p style="margin: 0; font-size: 20px;"><b>Коэффициент усиления передающей антенны, дБ: [[${site.antKU}]]</b></p>
+            <p style="margin: 0; font-size: 20px;"><b>абсолютная отметка земли, м: [[${site.absEarth}]]</b></p>
+            <p style="margin: 0; font-size: 20px;"><b><b>Мощность, Вт: [[${site.transPower}]]</b></b></p>
+            <b><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></b>
+          </td>
+
+          <td style="vertical-align: top; border: 2px solid black ;width: 44%; padding: 4px 8px; ">
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>Присвоенные полоса частот, МГц :</b>
+            <table style="vertical-align: top; width: 100%; height: 0; padding: 0px 0px;  font-size: 20px;">
+              <tbody>
+              <tr>
+                <th width="35% padding: 0 20px; "> прием</th>
+                <th width="2%; padding: 0 20px;">&nbsp;&nbsp;</th>
+                <th width="35%; padding: 0 22px;"> передача</th>
+              </tr>
+              </tbody>
+            </table>
+            <b> <br>
+              <div th:each="freq: ${site.frequencies}">
+                <table style="vertical-align: top; width: 100%; height: 0; padding: 0px 0px;  font-size: 20px;">
+                  <tbody>
+                  <tr>
+                    <th width="35% padding: 0 20px; "> [[${freq.reception}]]</th>
+                    <th width="2%; padding: 0 20px;">&nbsp;&nbsp;</th>
+                    <th width="35%; padding: 0 22px;"> [[${freq.transfer}]]</th>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </b>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <b>
+      <b style="font-size: 18px;">Условия использования частотного присвоения,<br> приведенные на обратной стороне,являются <br> неотъемлемой частью данного частотного присвоения.</b>
+      <br><br><br>
+      &nbsp;&nbsp;<b style="margin: 0; font-size: 22px;"> Дата выдачи: &nbsp;&nbsp; [[${item.issueDateTxt}]] г.</b>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="margin: 0; font-size: 22px;">Дата окончания:
+      &nbsp;&nbsp;[[${item.expireDateTxt}]] г.</b>
+      <br>
+    </b>
+
+    <br>
+    <table>
+      <tbody>
+      <tr>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="margin: 0; font-size: 26px;"><em><a>Председатель___________________________
+          Абдуллаева Ж.С.</a></em></b></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>

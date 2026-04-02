@@ -1,0 +1,136 @@
+<!--
+  admin/security/securityEventResult.html
+  Частичный шаблон (partial) для результатов поиска событий безопасности.
+-->
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    $('#actorSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+    $('#subjectSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+    $('#actionSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+    $('#fromDateTime').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+    $('#toDateTime').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+  });
+
+  function doSearch() {
+    $("#page").val(1);
+    search();
+  }
+  /*]]>*/
+</script>
+
+<form action="#" id="searchForm" th:action="@{/admin/security-events/search/}" th:object="${pattern}" method="post">
+  <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+  <div id="filter-fields" class="card mb-3">
+    <div class="card-body">
+      <div class="row g-2 align-items-end">
+        <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+        <input type="hidden" th:field="*{page}" id="page"/>
+
+        <div class="col-md-3">
+          <label class="form-label">Кто (actor)</label>
+          <select id="actorSelect" class="form-select" th:field="*{actorUsername}">
+            <option value="">Все</option>
+            <option th:each="u : ${users}" th:value="${u}" th:text="${u}"></option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Кому (subject)</label>
+          <select id="subjectSelect" class="form-select" th:field="*{subjectUsername}">
+            <option value="">Все</option>
+            <option th:each="u : ${users}" th:value="${u}" th:text="${u}"></option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Действие</label>
+          <select id="actionSelect" class="form-select" th:field="*{action}">
+            <option value="">Все</option>
+            <option th:each="a : ${actions}" th:value="${a}" th:text="${a}"></option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">IP</label>
+          <input class="form-control" type="text" placeholder="например 127.0.0.1" th:field="*{ip}" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">С</label>
+          <input id="fromDateTime" class="form-control" type="datetime-local" th:field="*{fromDateTime}" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">По</label>
+          <input id="toDateTime" class="form-control" type="datetime-local" th:field="*{toDateTime}" />
+        </div>
+
+        <div class="col-md-3">
+          <button type="button" class="btn btn-primary" onclick="doSearch()">Найти</button>
+          <button type="button" class="btn btn-outline-secondary" onclick="resetAllValues()">Сброс</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th style="white-space: nowrap;">Дата/время</th>
+          <th>Действие</th>
+          <th>Кто</th>
+          <th>Кому</th>
+          <th>IP</th>
+          <th>Детали</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="it : ${items}">
+          <!--
+            ВАЖНО: не форматируем дату через SpEL-конструкторы/Date внутри шаблона.
+            В ряде конфигураций это даёт 500 и страница выглядит "пустой".
+            Используем готовую строку из сущности.
+          -->
+          <td style="white-space: nowrap;" th:text="${it.eventTimeText}"></td>
+          <td><span class="badge bg-label-primary" th:text="${it.action}"></span></td>
+          <td th:text="${it.actorUsername}"></td>
+          <td th:text="${it.subjectUsername}"></td>
+          <td th:text="${it.ip}"></td>
+          <td><div class="small" th:text="${it.details}"></div></td>
+        </tr>
+        <tr th:if="${items == null || items.totalElements == 0}">
+          <td colspan="6" class="text-muted">Нет данных</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</form>
+
+<object th:include="partial/pagination" th:remove="tag"></object>

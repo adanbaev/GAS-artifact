@@ -1,0 +1,276 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="result">
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const URL_DEBUG_FREQ = /*[[@{/admin/integrity/debugFreq}]]*/ "/admin/integrity/debugFreq";
+
+    function doSearchIncidents() {
+      $("#page").val(1);
+      search(); // app.js
+    }
+
+    function ajaxErrorToMessage(xhr) {
+      let msg = "Ошибка запроса";
+      if (xhr && xhr.status) {
+        msg = "Ошибка " + xhr.status;
+        if (xhr.responseText) msg += ": " + xhr.responseText.substring(0, 300);
+      }
+      return msg;
+    }
+
+    function resolveIncident(id) {
+      let comment = prompt("Комментарий администратора (необязательно):", "");
+      $.ajax({
+        url: /*[[@{/admin/incidents/resolve}]]*/ "/admin/incidents/resolve",
+        type: "GET",
+        dataType: "json",
+        data: {id: id, comment: comment},
+        success: function (resp) {
+          if (resp && resp.ok) search();
+          else alert((resp && resp.error) ? resp.error : "Не удалось закрыть инцидент");
+        },
+        error: function (xhr) {
+          alert(ajaxErrorToMessage(xhr));
+        }
+      });
+    }
+
+    function debugHash(freqId) {
+      if (!freqId) { alert("Нет freqId"); return; }
+
+      $("#hashDebugTitle").text("Отладка хэша: freqId=" + freqId);
+      $("#hashDebugBody").html("<div class='text-muted'>Загрузка...</div>");
+
+      $.ajax({
+        url: URL_DEBUG_FREQ,
+        type: "GET",
+        dataType: "json",
+        data: {freqId: freqId},
+        success: function (rep) {
+          renderHashDebug(rep);
+          const modalEl = document.getElementById('hashDebugModal');
+          const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modal.show();
+        },
+        error: function (xhr) {
+          $("#hashDebugBody").html("<div class='alert alert-danger'>" + ajaxErrorToMessage(xhr) + "</div>");
+          const modalEl = document.getElementById('hashDebugModal');
+          const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+          modal.show();
+        }
+      });
+    }
+
+    function renderHashDebug(rep) {
+      const $b = $("#hashDebugBody").empty();
+      if (!rep) {
+        $b.append($('<div class="alert alert-danger"></div>').text('Пустой ответ'));
+        return;
+      }
+
+      const ok = !!rep.ok;
+      const $alert = $('<div></div>')
+        .addClass('alert')
+        .addClass(ok ? 'alert-success' : 'alert-warning');
+
+      $alert.append(document.createTextNode(ok ? 'Хэш совпадает' : 'Хэш НЕ совпадает'));
+      $alert.append('<br/>');
+
+      if (rep.checkedAtMs) {
+        $alert.append(document.createTextNode('checkedAt: ' + new Date(rep.checkedAtMs).toLocaleString()));
+        $alert.append('<br/>');
+      }
+
+      if (rep.source) {
+        $alert.append(document.createTextNode('source=' + rep.source));
+        if (rep.lastLogId) $alert.append(document.createTextNode(', lastLogId=' + rep.lastLogId));
+        if (rep.prevLogId) $alert.append(document.createTextNode(', prevLogId=' + rep.prevLogId));
+        $alert.append('<br/>');
+      }
+
+      if (rep.error) {
+        $alert.append($('<span class="text-danger"></span>').text(rep.error));
+      }
+
+      $b.append($alert);
+
+      const $row1 = $('<div class="mb-2"></div>');
+      $row1.append($('<div class="small text-muted"></div>').text('expected (из журнала)'));
+      $row1.append($('<code style="word-break: break-all; display: block;"></code>').text(rep.expectedHash || ''));
+
+      const $row2 = $('<div class="mb-2"></div>');
+      $row2.append($('<div class="small text-muted"></div>').text('actual (пересчитано сейчас)'));
+      $row2.append($('<code style="word-break: break-all; display: block;"></code>').text(rep.actualHash || ''));
+
+      $b.append($('<div class="mb-3"></div>').append($row1).append($row2));
+
+      if (rep.canonicalString) {
+        $b.append($('<div class="small text-muted mb-1"></div>').text('canonicalString (строка, которая реально хешируется)'));
+        $b.append($('<pre class="bg-light p-2 rounded" style="white-space: pre-wrap; word-break: break-word;"></pre>').text(rep.canonicalString));
+      }
+
+      if (rep.canonicalFields) {
+        const $tbl = $('<table class="table table-sm table-bordered"></table>');
+        $tbl.append('<thead><tr><th style="width: 220px;">Поле</th><th>Значение</th></tr></thead>');
+        const $tb = $('<tbody></tbody>');
+
+        Object.keys(rep.canonicalFields).forEach(function (k) {
+          const v = rep.canonicalFields[k];
+          const $tr = $('<tr></tr>');
+          $tr.append($('<td></td>').text(k));
+          $tr.append($('<td></td>').append($('<code style="word-break: break-all;"></code>').text(v == null ? '' : String(v))));
+          $tb.append($tr);
+        });
+
+        $tbl.append($tb);
+        $b.append($('<div class="small text-muted mb-1"></div>').text('Поля, которые участвуют в хэше:'));
+        $b.append($tbl);
+      }
+    }
+    /*]]>*/
+  </script>
+
+  <form action="#" id="searchForm" th:action="@{/admin/incidents/search/}" th:object="${pattern}" method="post">
+    <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+    <input type="hidden" th:field="*{page}" id="page"/>
+
+    <div id="filter-fields" class="row g-2 mb-3 align-items-end">
+      <div class="col-md-2">
+        <label class="form-label">Статус</label>
+        <select class="form-select" th:field="*{status}">
+          <option value="">Все</option>
+          <option value="OPEN">OPEN</option>
+          <option value="RESOLVED">RESOLVED</option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Тип</label>
+        <select class="form-select" th:field="*{incidentType}">
+          <option value="">Все</option>
+          <option value="DATA_MISMATCH">DATA_MISMATCH</option>
+          <option value="SIGNATURE_MISMATCH">SIGNATURE_MISMATCH</option>
+          <option value="NO_LOG_FOR_FREQ">NO_LOG_FOR_FREQ</option>
+        </select>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">ID владельца</label>
+        <input type="number" class="form-control" placeholder="owner.ID" th:field="*{ownerId}"/>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">С</label>
+        <input type="datetime-local" class="form-control" th:field="*{fromDateTime}"/>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">По</label>
+        <input type="datetime-local" class="form-control" th:field="*{toDateTime}"/>
+      </div>
+
+      <div class="col-md-3 d-flex gap-2">
+        <button type="button" class="btn btn-primary" onclick="doSearchIncidents()">Поиск</button>
+        <button type="button" class="btn btn-secondary" onclick="resetAllValues()">Сброс</button>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+      <tr>
+        <th style="width: 90px;">Инцидент</th>
+        <th style="width: 190px;">Дата/время</th>
+        <th style="width: 160px;">Тип</th>
+        <th style="width: 140px;">ID владельца</th>
+        <th style="width: 140px;">Freq ID</th>
+        <th style="width: 140px;">Кто</th>
+        <th style="width: 110px;">Статус</th>
+        <th>Expected</th>
+        <th>Actual</th>
+        <th style="width: 260px;">Действие</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:if="${items.getTotalElements() == 0}">
+        <td colspan="10" class="text-center">Нет записей</td>
+      </tr>
+
+      <tr data-th-each="item : ${items}">
+        <td data-th-text="${item.id}"></td>
+        <td th:text="${#dates.format(new java.util.Date(item.createdAtMs), 'dd.MM.yyyy HH:mm:ss')}"></td>
+        <td data-th-text="${item.incidentType}"></td>
+
+        <!-- СТРОГО: их ID -->
+        <td th:text="${item.ownerId != null ? item.ownerId : '—'}"></td>
+
+        <!-- Технический -->
+        <td th:text="${item.freqId != null ? item.freqId : '—'}"></td>
+
+        <td data-th-text="${item.detectedBy}"></td>
+        <td data-th-text="${item.status}"></td>
+
+        <td style="max-width: 220px; word-break: break-all;">
+          <code th:text="${item.expectedHash}"></code>
+        </td>
+        <td style="max-width: 220px; word-break: break-all;">
+          <code th:text="${item.actualHash}"></code>
+        </td>
+
+        <td>
+          <div class="d-flex flex-column gap-1">
+
+            <a th:if="${item.ownerId != null}"
+               class="btn btn-sm btn-outline-primary"
+               th:href="@{/freq/by-owner/{ownerId}(ownerId=${item.ownerId})}">
+              Найти по ID
+            </a>
+
+            <a class="btn btn-sm btn-outline-primary"
+               th:href="@{/freq/edit/{id}(id=${item.freqId})}">
+              Открыть запись
+            </a>
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-warning"
+                    th:if="${item.freqId != null}"
+                    th:attr="onclick=${'debugHash(' + item.freqId + ')'}">
+              Отладка хэша
+            </button>
+
+            <div th:if="${item.status == 'OPEN' and (item.incidentType == 'DATA_MISMATCH' or item.incidentType == 'NO_LOG_FOR_FREQ')}"
+                 class="small text-muted">
+              Закроется автоматически после исправления записи и успешной проверки целостности.
+            </div>
+
+            <button th:if="${item.status == 'OPEN' and item.incidentType != 'DATA_MISMATCH' and item.incidentType != 'NO_LOG_FOR_FREQ'}"
+                    type="button"
+                    class="btn btn-sm btn-outline-success"
+                    th:attr="onclick=${'resolveIncident(' + item.id + ')'}">
+              Закрыть
+            </button>
+
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+
+  <!-- Модальное окно отладки хэша -->
+  <div class="modal fade" id="hashDebugModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hashDebugTitle">Отладка хэша</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <div id="hashDebugBody"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <object th:include="partial/pagination" th:remove="tag"></object>
+</div>

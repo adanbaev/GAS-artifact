@@ -1,0 +1,87 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <title>Пользователи</title>
+</head>
+<body>
+<div layout:fragment="content" class="container-xxl flex-grow-1 container-p-y">
+  <script>
+    $("#left-navbar li").removeClass("active");
+    $("#user-li").addClass('active');
+  </script>
+  <div class="row">
+    <div class="col-xxl">
+      <div class="card mb-4">
+        <div class="card-body">
+          <form th:object="${item}" th:action="@{/admin/user/save/}" method="post">
+            <input id="id" type="hidden" th:field="*{id}"/>
+            <input id="active" type="hidden" th:field="*{active}"/>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="name">Имя</label>
+              <div class="col-sm-10">
+                <input type="text" th:field="*{name}" placeholder="Имя" class="form-control" id="name" required/>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="surname">Фамилия</label>
+              <div class="col-sm-10">
+                <input type="text" th:field="*{lastName}" placeholder="Фамилия" class="form-control" id="surname" required/>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="email">Email</label>
+              <div class="col-sm-10">
+                <div class="input-group input-group-merge">
+                  <input type="email" th:field="*{email}" id="email" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-default-email2">
+                  <span class="input-group-text" id="basic-default-email2">@example.com</span>
+                </div>
+                <div class="form-text">You can use letters, numbers &amp; periods</div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="username">Логин</label>
+              <div class="col-sm-10">
+                <input type="text" th:field="*{username}" placeholder="Логин" class="form-control" id="username" required/>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="role-select">Роль</label>
+              <div class="col-sm-10">
+                <select id="role-select" multiple="multiple" class="form-select" th:field="*{roles}" required>
+                  <option th:each="role : ${availableRoles}"
+                          th:selected="${item.roles !=null and  item.roles.contains(role)} ? selected"
+                          th:value="${role.id}"
+                          th:with="label=${
+                                                role.name == 'ADMIN' ? 'Администратор (ADMIN)' :
+                                                (role.name == 'OPERATOR' ? 'Оператор (OPERATOR)' :
+                                                (role.name == 'PRINTER' ? 'Печать (PRINTER)' :
+                                                (role.name == 'VIEWER' ? 'Только просмотр (VIEWER)' :
+                                                (role.name == 'AUDITOR' ? 'Аудитор (AUDITOR)' : role.name))))}"
+                          th:text="${label}">
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="password">Пароль</label>
+              <div class="col-sm-10">
+                <input type="password" th:field="*{password}" placeholder="Пароль" class="form-control"
+                       id="password" minlength="8" required/>
+              </div>
+            </div>
+            <div class="row justify-content-end">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

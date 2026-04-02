@@ -1,0 +1,451 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Частота</title>
+</head>
+<body>
+<div layout:fragment="content" class="container-xxl flex-grow-1 container-p-y">
+    <script>
+        $(document).ready(function () {
+
+            if($("#ownerId").val() != null && $("#ownerId").val() != ''){
+                $("#left-navbar li").removeClass("active");
+                $("#freq-li").addClass('active');
+            }else{
+                $("#left-navbar li").removeClass("active");
+                $("#master-li").addClass('active');
+            }
+
+            $('.date-input').datepicker({
+                locale: 'ru',
+                format: 'dd.mm.yyyy'
+            });
+        })
+    </script>
+    <div class="row">
+        <!-- Basic Layout -->
+        <div class="col-xxl">
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <small class="text-muted">Данные по владельцу частотного присвоения</small>
+                        <span class="ms-3" th:if="${item != null and item.freqModel != null and item.freqModel.freqId != null}">
+                            Freq ID: <strong th:text="${item.freqModel.freqId}"></strong>
+                        </span>
+                    </div>
+
+                    <div th:if="${item != null and item.freqModel != null and item.freqModel.freqId != null}">
+                        <form th:action="@{/favorite-freq/add}" method="post" class="m-0"
+                              sec:authorize="hasAnyRole('ADMIN','OPERATOR','PRINTER')">
+                            <input type="hidden" name="freqId" th:value="${item.freqModel.freqId}"/>
+                            <input type="hidden" name="title" value=""/>
+                            <input type="hidden" name="returnTo" value="redirect"/>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Добавить в избранное</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form th:object="${item}" th:action="@{/freq/save/}" method="post">
+                        <input id="id" type="hidden" th:field="*{freqModel.freqId}"/>
+                        <input id="siteID" type="hidden" th:field="*{siteModel.siteId}"/>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="ownerId">ID</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="ownerId" placeholder="ID"
+                                       th:field="*{ownerModel.ownerId}" readonly>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="ownerType">Тип</label>
+                            <div class="col-sm-1">
+                                <select id="ownerType" class="form-control" th:field="*{ownerModel.ownerType}" th:disabled="*{ownerModel.ownerId != null}">
+                                    <option th:each="type : ${T(kg.gov.nas.licensedb.enums.OwnerType).values()}"
+                                            th:value="${type}"
+                                            th:text="${type.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="licNum">Номер</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="licNum" placeholder="№"
+                                       th:field="*{ownerModel.licNumber}" readonly>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">Сертиф-т</label>
+                            <div class="col-sm-1">
+                                <input type="checkbox" th:field="*{ownerModel.hasCertificate}" th:value="*{ownerModel.hasCertificate}" />
+                            </div>
+
+                            <div class="col-sm-2">
+                                <select id="basis" class="form-control" th:field="*{ownerModel.basis}" >
+                                    <!-- ВАЖНО: пустое значение, чтобы Spring корректно привязал null (а не строку "NULL") -->
+                                    <option value="">Выбрать</option>
+                                    <option th:each="basis : ${T(kg.gov.nas.licensedb.enums.OwnerBasis).values()}"
+                                            th:value="${basis}"
+                                            th:text="${basis.value}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="basic-default-name">Владелец</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="basic-default-name" placeholder="Владелец"
+                                       th:field="*{ownerModel.ownerName}" required="required">
+                            </div>
+                            <!--<label class="col-sm-1 col-form-label" for="inn">ИНН</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="inn" placeholder="ИНН"
+                                       th:field="*{ownerModel.inn}" >
+                            </div>-->
+                            <label class="col-sm-1 col-form-label" for="basic-default-name1">Телефон</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="basic-default-name1" placeholder="Телефон"
+                                       th:field="*{ownerModel.phone}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="basic-default-name2">Факс</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="basic-default-name2" placeholder="Факс"
+                                       th:field="*{ownerModel.fax}" >
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="number"> </label>
+                            <div class="col-sm-2">
+                                <select id="reqS" class="form-control" th:field="*{ownerModel.regStatus}" >
+                                    <option th:each="regStatus : ${T(kg.gov.nas.licensedb.enums.RegStatus).values()}"
+                                            th:value="${regStatus}"
+                                            th:text="${regStatus.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="number"> </label>
+                            <div class="col-sm-2">
+                                <select id="purp" class="form-control" th:field="*{ownerModel.purpose}" >
+                                    <option th:each="purpose : ${T(kg.gov.nas.licensedb.enums.Purpose).values()}"
+                                            th:value="${purpose}"
+                                            th:text="${purpose.value}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <label class="col-sm-1 col-form-label" for="number">Счет</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="number" placeholder="Счет"
+                                       th:field="*{ownerModel.number}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="basic-default-name3">Паспорт</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="basic-default-name3" placeholder="Паспорт"
+                                       th:field="*{ownerModel.passport}" >
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="region">Область</label>
+                            <div class="col-sm-2">
+                                <select id="region" class="form-control" th:field="*{ownerModel.region}" >
+                                    <option th:each="state : ${T(kg.gov.nas.licensedb.enums.Region).values()}"
+                                            th:value="${state}"
+                                            th:text="${state.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="town">Нас.пункт</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="town" placeholder="Нас.пункт"
+                                       th:field="*{ownerModel.town}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="street">Улица</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="street" placeholder="Улица"
+                                       th:field="*{ownerModel.street}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="house">Дом</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="house" placeholder="Дом"
+                                       th:field="*{ownerModel.house}" >
+                            </div>
+
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="flat" placeholder="Кв"
+                                       th:field="*{ownerModel.flat}" >
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="issueDate">Дата выдачи</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control date-input" id="issueDate" placeholder="Дата выдачи"
+                                       th:field="*{ownerModel.issueDate}" required>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="expireDate">Дата оконч-я</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control date-input" id="expireDate" placeholder="Дата окончания"
+                                       th:field="*{ownerModel.expireDate}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="expireDate">Дата регистр-и</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control date-input" id="regDate" placeholder="Дата регистрации"
+                                       th:field="*{ownerModel.regDate}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="invoiceDate">Дата выписки</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control date-input" id="invoiceDate" placeholder="Дата выписки"
+                                       th:field="*{ownerModel.invoiceDate}" >
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="state">Статус</label>
+                            <div class="col-sm-2">
+                                <select id="state" class="form-control" th:field="*{ownerModel.state}" >
+                                    <option th:each="state : ${T(kg.gov.nas.licensedb.enums.State).values()}"
+                                            th:value="${state}"
+                                            th:text="${state.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="desc">Доп.информация</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="desc" placeholder="Доп.информация"
+                                       th:field="*{ownerModel.desc}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="typeOfUsing">Назнач-е</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="typeOfUsing" placeholder="Назначение"
+                                       th:field="*{ownerModel.typeOfUsing}" >
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="descP">Доп.инфо.печать</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="descP" placeholder="Доп.инфо.печать"
+                                       th:field="*{ownerModel.descP}" >
+                            </div>
+                        </div>
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <small class="text-muted float-end">Данные по пункту установки и оборудованию</small>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="point">ПУ</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="point" placeholder="ПУ"
+                                       th:field="*{siteModel.point}">
+                            </div>
+                            <!---->
+                            <label class="col-sm-1 col-form-label" for="latitude0">В.Д.</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="longitude0" placeholder="ВД"
+                                       th:field="*{siteModel.longitude0}" step="any">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="longitude1" placeholder="ВД"
+                                       th:field="*{siteModel.longitude1}" step="any">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="longitude2" placeholder="ВД"
+                                       th:field="*{siteModel.longitude2}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="latitude0">C.Ш.</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="latitude0" placeholder="СШ"
+                                       th:field="*{siteModel.latitude0}" step="any">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="latitude1" placeholder="СШ"
+                                       th:field="*{siteModel.latitude1}" step="any">
+                            </div>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="latitude2" placeholder="СШ"
+                                       th:field="*{siteModel.latitude2}" step="any">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+
+                            <label class="col-sm-1 col-form-label" for="callSign">Позывной</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="callSign" placeholder="Позывной"
+                                       th:field="*{siteModel.callSign}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="absEarth">Абс.от.земли(М)</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="absEarth" placeholder="Абс от. земли(М)"
+                                       th:field="*{siteModel.absEarth}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="transType">Тип передатчика</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="transType" placeholder="Тип передатчика"
+                                       th:field="*{siteModel.transType}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="receiverSensitivity">Чувствительность</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="receiverSensitivity" placeholder="Чувствительность"
+                                       th:field="*{siteModel.receiverSensitivity}" step="any">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="transNumber">Номер передатчика</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="transNumber" placeholder="Номер передатчика"
+                                       th:field="*{siteModel.transNumber}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="antName">Название антенны</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="antName" placeholder="Назвавние антенны"
+                                       th:field="*{siteModel.antName}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="antType">Тип антенны</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="antType" placeholder="Тип антенны"
+                                       th:field="*{siteModel.antType}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="antKU">КУ(дБ)</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="antKU" placeholder="КУ(дБ)"
+                                       th:field="*{siteModel.antKU}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="antKUrecv">КУ прием(дБ)</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="antKUrecv" placeholder="КУ прием(дБ)"
+                                       th:field="*{siteModel.antKUrecv}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="isz">Спутник</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="isz" placeholder="Спутник"
+                                       th:field="*{siteModel.isz}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="dolgOrbit">Д спутника</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="dolgOrbit" placeholder="Д спутника"
+                                       th:field="*{siteModel.dolgOrbit}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="beamWidth">Шир.луча</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="beamWidth" placeholder="Шир.луча"
+                                       th:field="*{siteModel.beamWidth}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="highlight">Выс.ант(м)</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="highlight" placeholder="Выс.ант(м)"
+                                       th:field="*{siteModel.highlight}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="freqStable">Стабил-ть частоты</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="freqStable" placeholder="Стабил-ть частоты"
+                                       th:field="*{siteModel.freqStable}" step="any">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="recvrType">Тип приемника</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="recvrType" placeholder="Тип приемника"
+                                       th:field="*{siteModel.recvrType}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="polar">Поляриз-я</label>
+                            <div class="col-sm-2">
+                                <select id="polar" class="form-control" th:field="*{siteModel.polar}">
+                                    <option th:each="polar : ${T(kg.gov.nas.licensedb.enums.Polar).values()}"
+                                            th:value="${polar}"
+                                            th:text="${polar.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="receiverAntType">Тип антенны</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="receiverAntType" placeholder="Тип антенны"
+                                       th:field="*{siteModel.receiverAntType}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="receiverHighlight">Высота ант(м)</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="receiverHighlight" placeholder="Высота ант(м)"
+                                       th:field="*{siteModel.receiverHighlight}" step="any">
+                            </div>
+
+                        </div>
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <small class="text-muted float-end">Данные по присвоенным частотам</small>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="nominal">Частота(МГц)</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="nominal" placeholder="Частота(МГц)"
+                                       th:field="*{freqModel.nominal}" step="any" required>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="type">Тип частоты</label>
+                            <div class="col-sm-2">
+                                <select id="type" class="form-control" th:field="*{freqModel.type}">
+                                    <option th:each="type : ${T(kg.gov.nas.licensedb.enums.FreqType).values()}"
+                                            th:value="${type}"
+                                            th:text="${type.value}">
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="band">Полоса(кГц)</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="band" placeholder="Полоса(кГц)"
+                                       th:field="*{freqModel.band}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="mode">Режим</label>
+                            <div class="col-sm-2">
+                                <select id="mode" class="form-control" th:field="*{freqModel.mode}">
+                                    <option th:each="mode : ${T(kg.gov.nas.licensedb.enums.FreqMode).values()}"
+                                            th:value="${mode}"
+                                            th:text="${mode.value}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="meaning">Обозн. излучения</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="meaning" placeholder="Обозн. излучения"
+                                       th:field="*{freqModel.meaning}">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="mobStan">Кол.моб.стан.</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="mobStan" placeholder="Кол.моб.стан."
+                                       th:field="*{freqModel.mobStan}" step="any">
+                            </div>
+
+                            <label class="col-sm-1 col-form-label">Инком.</label>
+                            <div class="col-sm-2">
+                                <input type="checkbox" th:field="*{freqModel.inco}" th:value="*{freqModel.inco}" />
+                            </div>
+
+                            <label class="col-sm-1 col-form-label" for="satRadius">Радиус зоны сп</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="satRadius" placeholder="Радиус зоны сп"
+                                       th:field="*{freqModel.satRadius}" step="any">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label" for="deviation">Девиация</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="deviation" placeholder="Девиация"
+                                       th:field="*{freqModel.deviation}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="channel">Канал</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="channel" placeholder="Канал"
+                                       th:field="*{freqModel.channel}" step="any">
+                            </div>
+                            <label class="col-sm-1 col-form-label" for="snch">СНЧ</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="snch" placeholder="СНЧ"
+                                       th:field="*{freqModel.snch}" step="any">
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

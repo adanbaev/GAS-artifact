@@ -1,0 +1,90 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Печать</title>
+</head>
+<body>
+<div layout:fragment="content" class="container-xxl flex-grow-1 container-p-y">
+  <script>
+    $("#left-navbar li").removeClass("active");
+    $("#printer-li").addClass('active');
+  </script>
+
+  <!-- ВАЖНО: локальный alert убран, чтобы не было дубля.
+       Сообщение об ошибке уже показывает layout (верхняя красная полоска). -->
+
+  <div class="row">
+    <div class="col-xxl">
+      <div class="card mb-4">
+        <div class="card-body">
+          <form th:object="${item}" th:action="@{/printer/print/}" method="post">
+
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <small class="text-muted float-end">Введите диапазон ID</small>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-1 col-form-label" for="from">C</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="from" placeholder="С" th:field="*{from}">
+              </div>
+
+              <label class="col-sm-1 col-form-label" for="to">По</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="to" placeholder="По" th:field="*{to}">
+              </div>
+            </div>
+
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <small class="text-muted float-end">Введите список ID через запятую</small>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-1 col-form-label" for="ids">ID</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="ids" placeholder="ID" th:field="*{ids}">
+              </div>
+            </div>
+
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <small class="text-muted float-end">Введите данные для печати</small>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-1 col-form-label" for="inn">ИНН</label>
+              <div class="col-sm-2">
+                <input type="text" class="form-control" id="inn" placeholder="ИНН" th:field="*{inn}">
+              </div>
+
+              <label class="col-sm-1 col-form-label" for="basis">Основа</label>
+              <div class="col-sm-3">
+                <select id="basis" class="form-control" th:field="*{basis}">
+                  <option value="">Выбрать</option>
+                  <option th:each="basis : ${T(kg.gov.nas.licensedb.enums.OwnerBasis).values()}"
+                          th:value="${basis}"
+                          th:text="${basis.value}">
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row justify-content-end">
+              <div class="col-sm-10 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"
+                        th:formaction="@{/printer/pdf/}" formmethod="post">
+                  Скачать PDF
+                </button>
+
+                <button type="submit" class="btn btn-outline-secondary"
+                        formtarget="_blank">
+                  Показать HTML
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

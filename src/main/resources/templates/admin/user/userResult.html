@@ -1,0 +1,132 @@
+<!--
+  admin/user/userResult.html
+  Частичный шаблон (partial) для результатов поиска пользователей.
+  Он используется:
+  1) как include на странице userList.html
+  2) как ответ на AJAX POST /admin/user/search/ (см. app.js -> search())
+-->
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    $('#roleFilterSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    })
+  })
+  /*]]>*/
+</script>
+
+<form action="#" id="searchForm" th:action="@{/admin/user/search/}" th:object="${pattern}" method="post">
+
+  <!-- CSRF: полезно даже если сейчас отключено -->
+  <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+  <!-- Уведомление о сбросе пароля (показывается один раз через flash-атрибуты) -->
+  <div class="alert alert-warning d-flex justify-content-between align-items-start gap-2" th:if="${resetPasswordTempPassword != null}">
+    <div>
+      <div>
+        <strong>Пароль сброшен.</strong>
+        Пользователь: <strong th:text="${resetPasswordUser}"></strong>
+      </div>
+      <div class="mt-1">
+        Временный пароль: <code id="tempPasswordValue" th:text="${resetPasswordTempPassword}"></code>
+      </div>
+      <div class="small text-muted mt-1">Сохраните пароль сейчас: после обновления страницы он больше не будет показан.</div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-sm btn-outline-dark" onclick="copyTempPassword()">Копировать</button>
+    </div>
+  </div>
+
+  <script>
+    function copyTempPassword() {
+      try {
+        var el = document.getElementById('tempPasswordValue');
+        if (!el) return;
+        var text = (el.innerText || el.textContent || '').trim();
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+        } else {
+          // fallback
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+      } catch (e) {
+        // игнор
+      }
+    }
+  </script>
+
+  <table class="table table-bordered table-hover table-striped"
+         data-pagination="true"
+         data-side-pagination="server">
+    <thead>
+    <tr class="filters">
+      <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+      <input type="hidden" th:field="*{page}" id="page"/>
+      <th>
+        <div class="col-2">
+          <input type="text" class="form-control input-filter" placeholder="Логин" th:field="*{username}"/>
+        </div>
+      </th>
+      <th>
+        <select id="roleFilterSelect" class="form-control" th:field="*{roleId}">
+          <option value="">Роль</option>
+          <option th:each="role : ${allRoles}"
+                  th:value="${role.id}"
+                  th:with="label=${
+                                role.name == 'ADMIN' ? 'Администратор (ADMIN)' :
+                                (role.name == 'OPERATOR' ? 'Оператор (OPERATOR)' :
+                                (role.name == 'PRINTER' ? 'Печать (PRINTER)' :
+                                (role.name == 'VIEWER' ? 'Только просмотр (VIEWER)' :
+                                (role.name == 'AUDITOR' ? 'Аудитор (AUDITOR)' : role.name))))}"
+                  th:text="${label}">
+          </option>
+        </select>
+      </th>
+      <th>Действие</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="item : ${items}">
+      <td data-th-text="${item.username}"></td>
+      <td data-th-text="${#strings.listJoin(item.roles.![name], ', ')}"></td>
+
+      <td>
+        <div class="dropdown">
+          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+            <i class="bx bx-dots-vertical-rounded"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/admin/user/edit/{id}(id=${item.id})}"><i class="bx bx-edit-alt me-1"></i>Редактировать</a>
+
+            <!--
+              ВАЖНО: нельзя делать form внутри form (у нас весь список обёрнут в #searchForm).
+              Поэтому используем HTML5-formaction/formmethod.
+            -->
+            <button type="submit"
+                    class="dropdown-item"
+                    formmethod="post"
+                    th:formaction="@{/admin/user/reset-password/{id}(id=${item.id})}"
+                    onclick="return confirm('Сбросить пароль этому пользователю?');">
+              <i class="bx bx-key me-1"></i>Сбросить пароль
+            </button>
+
+            <a class="dropdown-item" th:href="@{/admin/user/delete/{id}(id=${item.id})}"><i class="bx bx-trash me-1"></i>Удалить</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+<object th:include="partial/pagination" th:remove="tag"></object>

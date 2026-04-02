@@ -1,0 +1,24 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+  <title>Логи</title>
+</head>
+<body>
+<div layout:fragment="content" class="container-xxl flex-grow-1 container-p-y">
+  <script>
+    $("#left-navbar li").removeClass("active");
+    $("#logs-li").addClass('active');
+  </script>
+
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="m-0">Логи</h2>
+    <a class="btn btn-outline-secondary" th:href="@{/admin/incidents/index/}">Инциденты</a>
+  </div>
+
+  <div id="searchResults">
+    <object th:include="admin/logs/logResult" th:remove="tag"></object>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+src/main/resources/application.properties
+.env
+*.log
+target/
+.idea/
+*.iml

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--/*@thymesVar id="error" type="java.lang.String"*/-->
+<!--/*@thymesVar id="success" type="java.lang.String"*/-->
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>База данных частот</title>
+  <meta name="description" content=""/>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{/img/favicon/favicon.ico}"/>
+
+  <!-- Icons -->
+  <link rel="stylesheet" th:href="@{/fonts/boxicons.css}"/>
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" th:href="@{/css/demo.css}"/>
+  <link rel="stylesheet" th:href="@{/css/core.css}" class="template-customizer-core-css"/>
+  <link rel="stylesheet" th:href="@{/css/theme-default.css}" class="template-customizer-theme-css"/>
+
+  <!-- Project overrides / additions (должно быть ПОСЛЕ theme-default.css) -->
+  <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" th:href="@{/css/perfect-scrollbar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}"/>
+
+  <!-- Helpers -->
+  <script th:src="@{/js/helpers.js}"></script>
+  <script th:src="@{/js/config.js}"></script>
+
+  <!-- Core JS -->
+  <script th:src="@{/js/jquery-3.6.0.js}"></script>
+  <script th:src="@{/js/popper.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/perfect-scrollbar.js}"></script>
+  <script th:src="@{/js/menu.js}"></script>
+
+  <!-- Main JS -->
+  <script th:src="@{/js/main.js}"></script>
+
+  <!-- Page JS -->
+  <script th:src="@{/js/dashboards-analytics.js}"></script>
+  <script type="text/javascript" th:src="@{/js/app.js}"></script>
+  <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script>
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+
+    <!-- Menu -->
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <div class="app-brand demo">
+        <a th:href="@{/}" class="app-brand-link">
+          <span class="app-brand-text demo menu-text fw-bolder ms-2"><!--ГАС КР--></span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+          <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+      </div>
+
+      <div class="menu-inner-shadow"></div>
+
+      <ul class="menu-inner py-1" id="left-navbar">
+        <!-- Dashboard -->
+        <li class="menu-item active" id="index-li">
+          <a th:href="@{/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <span data-i18n="Analytics">Главная</span>
+          </a>
+        </li>
+
+        <li class="menu-item" id="freq-li">
+          <a th:href="@{/freq/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-bar-chart"></i>
+            <span data-i18n="Analytics">Частоты</span>
+          </a>
+        </li>
+
+        <!-- Создание/изменение данных: ADMIN / OPERATOR -->
+        <li class="menu-item" id="master-li" sec:authorize="hasAnyRole('ADMIN','OPERATOR')">
+          <a th:href="@{/freq/create/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-add-to-queue"></i>
+            <span data-i18n="Analytics">Добавить присвоение</span>
+          </a>
+        </li>
+
+        <!-- Печать: ADMIN / OPERATOR / PRINTER -->
+        <li class="menu-item" id="printer-li" sec:authorize="hasAnyRole('ADMIN','OPERATOR','PRINTER')">
+          <a th:href="@{/printer/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-printer"></i>
+            <span data-i18n="Analytics">Печать</span>
+          </a>
+        </li>
+
+        <!-- ADMIN: Пользователи -->
+        <li class="menu-item" id="user-li" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin/user/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bxs-user-account"></i>
+            <span data-i18n="Analytics">Пользователи</span>
+          </a>
+        </li>
+
+        <!-- ADMIN: TRBAC -->
+        <li class="menu-item" id="trbac-li" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin/trbac/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-time-five"></i>
+            <span data-i18n="Analytics">TRBAC</span>
+          </a>
+        </li>
+
+        <!-- Логи: ADMIN / AUDITOR -->
+        <li class="menu-item" id="logs-li" sec:authorize="hasAnyRole('ADMIN','AUDITOR')">
+          <a th:href="@{/admin/logs/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-list-check"></i>
+            <span data-i18n="Analytics">Логи</span>
+          </a>
+        </li>
+
+        <!-- События безопасности: ADMIN / AUDITOR -->
+        <li class="menu-item" id="security-events-li" sec:authorize="hasAnyRole('ADMIN','AUDITOR')">
+          <a th:href="@{/admin/security-events/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-lock-alt"></i>
+            <span data-i18n="Analytics">События безопасности</span>
+          </a>
+        </li>
+
+        <!-- Инциденты: ADMIN / AUDITOR -->
+        <li class="menu-item" id="incidents-li" sec:authorize="hasAnyRole('ADMIN','AUDITOR')">
+          <a th:href="@{/admin/incidents/index/}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-shield-quarter"></i>
+            <span data-i18n="Analytics">Инциденты</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" th:href="@{/logout}">
+            <i class="bx bx-power-off me-2"></i>
+            <span class="align-middle">Выйти</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+
+        <!-- Успех -->
+        <div class="alert-top alert alert-success alert-dismissible fade show"
+             role="alert"
+             th:if="${success}"
+             style="padding: 0.5rem 0.5rem">
+          <span th:text="${success}"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        </div>
+
+        <!-- Ошибка -->
+        <div class="alert-top alert alert-danger alert-dismissible fade show"
+             role="alert"
+             th:if="${error}"
+             style="padding: 0.5rem 0.5rem">
+          <span th:text="${error}"></span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        </div>
+
+        <!-- TRBAC: предупреждение вне рабочего времени (если подключен trbacUi через ControllerAdvice) -->
+        <div class="alert-top alert alert-warning alert-dismissible fade show"
+             role="alert"
+             th:if="${trbacUi != null and trbacUi.showBanner}"
+             style="padding: 0.5rem 0.5rem">
+          <div>
+            <strong>Вне рабочего времени.</strong>
+            Права ограничены (роль: <span th:text="${trbacUi.offHoursRole}"></span>).
+          </div>
+          <div class="small text-muted">
+            Текущее время: <span th:text="${trbacUi.nowText}"></span>
+            | Окно: <span th:text="${trbacUi.windowText}"></span>
+            | Таймзона: <span th:text="${trbacUi.timezone}"></span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+        </div>
+
+        <!-- Content -->
+        <div layout:fragment="content"></div>
+        <!-- / Content -->
+
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+              © <span th:text="${T(java.time.Year).now()}"></span>
+              <!--ГАС КР-->
+            </div>
+          </div>
+        </footer>
+        <!-- / Footer -->
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+</body>
+</html>

@@ -1,0 +1,449 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  // Базовые URL (Thymeleaf подставит context-path, если он есть)
+  const URL_INTEGRITY_CHECK    = /*[[@{/admin/integrity/check}]]*/ "/admin/integrity/check";
+  const URL_INTEGRITY_CHECK_ID = /*[[@{/admin/integrity/checkId}]]*/ "/admin/integrity/checkId";
+  const URL_INCIDENT_OPEN      = /*[[@{/admin/incidents/open}]]*/ "/admin/incidents/open";
+  const URL_INCIDENTS_INDEX    = /*[[@{/admin/incidents/index/}]]*/ "/admin/incidents/index/";
+  const URL_FREQ_BY_OWNER      = /*[[@{/freq/by-owner/}]]*/ "/freq/by-owner/";
+  const URL_FREQ_EDIT          = /*[[@{/freq/edit/}]]*/ "/freq/edit/";
+
+  $(document).ready(function () {
+
+    $('#sourceSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+
+    $('#userSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+
+    $('#actionSelect').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+
+    $('#ownerIdFilter').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+
+    $('#fromDateTime').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+
+    $('#toDateTime').on('change', function (event) {
+      event.preventDefault();
+      $("#page").val(1);
+      search();
+    });
+  });
+
+  function doSearch() {
+    $("#page").val(1);
+    search();
+  }
+
+  function ajaxErrorToMessage(xhr) {
+    let msg = "Ошибка запроса";
+    if (xhr && xhr.status) {
+      msg = "Ошибка " + xhr.status;
+      if (xhr.responseText) {
+        msg += ": " + xhr.responseText.substring(0, 300);
+      }
+    }
+    return msg;
+  }
+
+  // ---- UX: индикатор выполнения длительных проверок целостности ----
+  function formatDurationMs(ms) {
+    if (ms == null) return "";
+    const s = Math.max(0, Math.round(ms / 100) / 10); // 0.1s
+    return (s < 60) ? (s + " c") : (Math.floor(s / 60) + " мин " + Math.round(s % 60) + " c");
+  }
+
+  function setIntegrityBusy(isBusy, text) {
+    const $ov = $("#integrityOverlay");
+    const $txt = $("#integrityOverlayText");
+    const $btnSampling = $("#btnSamplingCheck");
+    const $btnOwner = $("#btnOwnerCheck");
+
+    if (isBusy) {
+      if (text) $txt.text(text);
+      $ov.removeClass("d-none");
+      $btnSampling.prop("disabled", true);
+      $btnOwner.prop("disabled", true);
+
+      // Подсказываем пользователю, что запрос выполняется
+      $("#integrityCheckResult")
+        .empty()
+        .append($('<div class="alert alert-info mb-0"></div>').text("Идёт проверка… пожалуйста, подождите."));
+    } else {
+      $ov.addClass("d-none");
+      $btnSampling.prop("disabled", false);
+      $btnOwner.prop("disabled", false);
+    }
+  }
+
+  function renderReport(r) {
+    if (!r) return;
+
+    // Сбрасываем last freqId
+    $("#integrityLastFreqId").val(r.freqId ? r.freqId : "");
+
+    const $root = $('<div></div>');
+
+    // --- шапка ---
+    const ok = !!r.ok;
+    const $alert = $('<div></div>')
+      .addClass('alert')
+      .addClass(ok ? 'alert-success' : 'alert-danger');
+
+    $alert.append(document.createTextNode(ok ? 'Проверка: ОК' : 'Проверка: ОБНАРУЖЕНЫ ПРОБЛЕМЫ'));
+    $alert.append('<br/>');
+    $alert.append(document.createTextNode('checkedAt: ' + new Date(r.checkedAtMs).toLocaleString()));
+    $alert.append('<br/>');
+    $alert.append(document.createTextNode('chainIssues=' + (r.chainIssues || 0) + ', dataIssues=' + (r.dataIssues || 0)));
+
+    // Покажем объём проверки (чтобы было понятно, почему может быть долго)
+    const checked = (r.logEntriesChecked != null) ? r.logEntriesChecked : null;
+    if (checked != null) {
+      $alert.append('<br/>');
+      if (r.ownerId) {
+        $alert.append(document.createTextNode('Проверено записей владельца: ' + checked));
+      } else {
+        $alert.append(document.createTextNode('Проверено записей журнала: ' + checked));
+      }
+    }
+    if (r._elapsedMs != null) {
+      $alert.append('<br/>');
+      $alert.append(document.createTextNode('Время выполнения: ' + formatDurationMs(r._elapsedMs)));
+    }
+
+    // Показываем ID владельца (реестровый) и Freq ID (технический) отдельно
+    const ownerId = (r.ownerId ? String(r.ownerId) : "");
+    const freqId = (r.freqId ? String(r.freqId) : "");
+    if (ownerId || freqId) {
+      $alert.append('<br/>');
+      $alert.append(document.createTextNode('ID владельца=' + (ownerId ? ownerId : '—') + ', Freq ID=' + (freqId ? freqId : '—')));
+      if (r.source) $alert.append(document.createTextNode(' (source=' + r.source + ')'));
+      if (r.lastLogId) $alert.append(document.createTextNode(', lastLogId=' + r.lastLogId));
+      if (r.prevLogId && r.lastLogId && (String(r.prevLogId) !== String(r.lastLogId))) {
+        $alert.append('<br/>');
+        $alert.append(document.createTextNode('Эталон (история): lastLogId было ' + r.prevLogId + ' → стало ' + r.lastLogId));
+      }
+    }
+
+    if (r.expectedHash) {
+      $alert.append('<br/>');
+      $alert.append(document.createTextNode('expected: '));
+      $alert.append($('<code></code>').text(r.expectedHash));
+    }
+    if (r.actualHash) {
+      $alert.append('<br/>');
+      $alert.append(document.createTextNode('actual: '));
+      $alert.append($('<code></code>').text(r.actualHash));
+    }
+
+    $root.append($alert);
+
+    // --- список проблем ---
+    if (r.issues && r.issues.length > 0) {
+      const $ul = $('<ul></ul>');
+      r.issues.forEach(function (s) {
+        $ul.append($('<li></li>').append($('<code></code>').text(s)));
+      });
+      $root.append($ul);
+    }
+
+    // --- действия ---
+    const $actions = $('<div></div>').addClass('d-flex flex-wrap gap-2');
+
+    if (r.ownerId) {
+      $actions.append(
+        $('<a></a>')
+          .addClass('btn btn-outline-primary')
+          .attr('href', URL_FREQ_BY_OWNER + encodeURIComponent(r.ownerId))
+          .text('Найти по ID')
+      );
+    }
+
+    if (r.freqId) {
+      $actions.append(
+        $('<a></a>')
+          .addClass('btn btn-outline-primary')
+          .attr('href', URL_FREQ_EDIT + encodeURIComponent(r.freqId))
+          .text('Открыть запись')
+      );
+    }
+
+    // Зафиксировать инцидент — только если проверка выявила проблему и есть конкретный freqId
+    if (r.freqId && !ok) {
+      $actions.append(
+        $('<button></button>')
+          .attr('type', 'button')
+          .addClass('btn btn-warning')
+          .text('Зафиксировать инцидент')
+          .on('click', openIncidentFromCheck)
+      );
+    }
+
+    // Ссылка на вкладку инцидентов полезна всегда
+    $actions.append(
+      $('<a></a>')
+        .addClass('btn btn-secondary')
+        .attr('href', URL_INCIDENTS_INDEX)
+        .text('Инциденты')
+    );
+
+    $root.append($actions);
+
+    $("#integrityCheckResult").empty().append($root);
+  }
+
+  // Проверка выборки (общая проверка)
+  function runSamplingCheck() {
+    const verifyData = $("#verifyData").is(":checked");
+    let limit = parseInt($("#checkLimit").val() || "2000", 10);
+    if (!limit || limit < 1) limit = 2000;
+
+        const startedAt = Date.now();
+    setIntegrityBusy(true, 'Проверяем выборку…');
+
+    $.ajax({
+      url: URL_INTEGRITY_CHECK,
+      type: "GET",
+      dataType: "json",
+      data: {verifyData: verifyData, limit: limit},
+      success: function (r) {
+        r._elapsedMs = Date.now() - startedAt;
+        renderReport(r);
+      },
+      error: function (xhr) {
+        alert(ajaxErrorToMessage(xhr));
+      },
+      complete: function () {
+        setIntegrityBusy(false);
+      }
+    });
+  }
+
+  // Проверка по ID владельца
+  function runIdCheck() {
+    const id = $("#checkId").val();
+    if (!id) {
+      alert("Введите ID владельца");
+      return;
+    }
+
+        const startedAt = Date.now();
+    setIntegrityBusy(true, 'Проверяем владельца…');
+
+    $.ajax({
+      url: URL_INTEGRITY_CHECK_ID,
+      type: "GET",
+      dataType: "json",
+      data: {id: id},
+      success: function (r) {
+        r._elapsedMs = Date.now() - startedAt;
+        renderReport(r);
+      },
+      error: function (xhr) {
+        alert(ajaxErrorToMessage(xhr));
+      },
+      complete: function () {
+        setIntegrityBusy(false);
+      }
+    });
+  }
+
+  // Зафиксировать инцидент из результата проверки
+  function openIncidentFromCheck() {
+    const freqId = $("#integrityLastFreqId").val();
+    if (!freqId) {
+      alert("Нет записи для фиксации инцидента");
+      return;
+    }
+
+    const comment = prompt("Комментарий (необязательно):", "");
+
+    $.ajax({
+      url: URL_INCIDENT_OPEN,
+      type: "GET",
+      dataType: "json",
+      data: {freqId: freqId, comment: comment},
+      success: function (r) {
+        if (r && r.ok) {
+          alert("Инцидент зафиксирован. ID=" + r.incidentId);
+        } else {
+          alert((r && r.error) ? r.error : "Не удалось зафиксировать инцидент");
+        }
+      },
+      error: function (xhr) {
+        alert(ajaxErrorToMessage(xhr));
+      }
+    });
+  }
+
+  /*]]>*/
+</script>
+
+<form action="#" id="searchForm" th:action="@{/admin/logs/search/}" th:object="${pattern}" method="post">
+
+  <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+  <input type="hidden" th:field="*{page}" id="page"/>
+
+  <!-- Панель проверки целостности -->
+  <div class="card mb-3">
+    <div class="card-body position-relative">
+      <!-- Overlay: показ, что проверка выполняется (длительная операция) -->
+      <div id="integrityOverlay" class="position-absolute top-0 start-0 w-100 h-100 d-none"
+           style="background: rgba(255,255,255,0.65); z-index: 10;">
+        <div class="position-absolute top-50 start-50 translate-middle text-center">
+          <div class="spinner-border" role="status" aria-hidden="true"></div>
+          <div id="integrityOverlayText" class="mt-2 fw-semibold">Идёт проверка…</div>
+        </div>
+      </div>
+
+      <h5 class="card-title mb-2">Проверка целостности</h5>
+
+      <div class="row g-2 align-items-end">
+        <div class="col-md-2">
+          <label class="form-label">Лимит</label>
+          <input id="checkLimit" type="number" class="form-control" value="2000"/>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-check mt-4">
+            <input id="verifyData" class="form-check-input" type="checkbox" checked/>
+            <label class="form-check-label" for="verifyData">Сверять данные</label>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <button type="button" id="btnSamplingCheck" class="btn btn-outline-primary mt-4" onclick="runSamplingCheck()">
+            Проверить выборку
+          </button>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Проверить ID владельца</label>
+          <input id="checkId" type="number" class="form-control" placeholder="например, 6004"/>
+        </div>
+
+        <div class="col-md-2">
+          <button type="button" id="btnOwnerCheck" class="btn btn-primary mt-4" onclick="runIdCheck()">
+            Проверить владельца
+          </button>
+        </div>
+      </div>
+
+      <input type="hidden" id="integrityLastFreqId" value=""/>
+      <div id="integrityCheckResult" class="mt-3" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Фильтры логов -->
+  <div id="filter-fields" class="row g-2 mb-3 align-items-end">
+    <div class="col-md-2">
+      <label class="form-label">Источник</label>
+      <select id="sourceSelect" class="form-select" th:field="*{source}">
+        <option value="LOG">LOG (цепочка)</option>
+        <option value="EVENT">EVENT (события)</option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Пользователь</label>
+      <select id="userSelect" class="form-select" th:field="*{actorUsername}">
+        <option value="">Все</option>
+        <option th:each="u : ${users}" th:value="${u}" th:text="${u}"></option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Действие</label>
+      <select id="actionSelect" class="form-select" th:field="*{action}">
+        <option value="">Все</option>
+        <option th:each="a : ${actions}" th:value="${a}" th:text="${a}"></option>
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">ID владельца</label>
+      <input id="ownerIdFilter" type="number" class="form-control" placeholder="ID владельца" th:field="*{ownerId}"/>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">С</label>
+      <input id="fromDateTime" type="datetime-local" class="form-control" th:field="*{fromDateTime}"/>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">По</label>
+      <input id="toDateTime" type="datetime-local" class="form-control" th:field="*{toDateTime}"/>
+    </div>
+
+    <div class="col-md-2 d-flex gap-2">
+      <button type="button" class="btn btn-primary" onclick="doSearch()">Поиск</button>
+      <button type="button" class="btn btn-secondary" onclick="resetAllValues()">Сброс</button>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover table-striped"
+         data-pagination="true"
+         data-side-pagination="server">
+
+    <thead>
+    <tr>
+      <th style="width: 70px;">№</th>
+      <th style="width: 190px;">Дата/время</th>
+      <th style="width: 140px;">Пользователь</th>
+      <th style="width: 120px;">Действие</th>
+      <th style="width: 140px;">ID владельца</th>
+      <th style="width: 140px;">Freq ID</th>
+      <th>Data hash</th>
+      <th>Prev hash</th>
+      <th>Chain hash</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:if="${items.getTotalElements() == 0}">
+      <td colspan="9" class="text-center">Нет записей</td>
+    </tr>
+
+    <tr data-th-each="item : ${items}">
+      <td data-th-text="${item.id}"></td>
+      <td th:text="${#dates.format(new java.util.Date(item.eventMs), 'dd.MM.yyyy HH:mm:ss')}"></td>
+      <td data-th-text="${item.actorUsername}"></td>
+      <td data-th-text="${item.action}"></td>
+      <td th:text="${item.ownerId != null ? item.ownerId : '—'}"></td>
+      <td th:text="${item.freqId != null ? item.freqId : '—'}"></td>
+
+      <td style="max-width: 260px; word-break: break-all;">
+        <code th:text="${item.dataHash}"></code>
+      </td>
+      <td style="max-width: 260px; word-break: break-all;">
+        <code th:text="${item.prevHash}"></code>
+      </td>
+      <td style="max-width: 260px; word-break: break-all;">
+        <code th:text="${item.chainHash}"></code>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+<object th:include="partial/pagination" th:remove="tag"></object>
+</html>
