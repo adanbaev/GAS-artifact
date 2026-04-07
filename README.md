@@ -1,13 +1,12 @@
-@'
-# GAS-artifact
+﻿# GAS-artifact
 
-Selected implementation artifacts supporting the manuscript:
+Selected implementation artifacts supporting the accompanying research manuscript:
 
 **Application-Layer Integrity Protection and Temporal Administrative Control for Centralized State Registries: Implementation and Evaluation**
 
 ## Scope
 
-This repository is a curated public artifact for journal inspection. It contains only the implementation fragments, benchmark outputs, figures, scripts, and selected tests necessary to support the manuscript claims.
+This repository is a curated public research artifact intended for technical inspection of the accompanying manuscript. It contains only the implementation fragments, benchmark outputs, figures, scripts, and selected tests necessary to support the manuscript claims.
 
 It does **not** contain:
 - operational registry data
@@ -58,7 +57,6 @@ The included code reflects the revised implementation described in the manuscrip
 
 Operational registry data and deployment secrets are excluded for confidentiality and security reasons. The included configuration file is an example file only and contains no production credentials.
 
-## Release purpose
+## Purpose
 
-This repository is intended for editors, reviewers, and readers who need a focused, inspectable artifact aligned with the submitted Array manuscript.
-'@ | Set-Content "D:\Repos\GAS-artifact\README.md" -Encoding UTF8
+This repository is intended for editors, reviewers, and readers who need a focused, inspectable research artifact aligned with the accompanying manuscript.
