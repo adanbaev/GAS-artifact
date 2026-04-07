@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36">
+  <diagram name="Figure 2" id="wUV9lPoRSSiTFRwCvGsy">
+    <mxGraphModel dx="1488" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lteHslnpNRE7AhUCwxSl-105" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="User / Admin" vertex="1">
+          <mxGeometry height="60" width="170" x="140" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-106" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="1. Web Application / Spring Boot&lt;br&gt;Controller" vertex="1">
+          <mxGeometry height="80" width="320" x="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-107" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;fontStyle=1;" value="2. Service Layer&lt;br&gt;(FreqCrudService)" vertex="1">
+          <mxGeometry height="70" width="220" x="450" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-108" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-105" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-106" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-109" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-106" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-107" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-110" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="320" width="900" x="160" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-111" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" value="Application-layer HMAC verification workflow" vertex="1">
+          <mxGeometry height="20" width="340" x="180" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-112" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="3. Extract protected&#xa;fields" vertex="1">
+          <mxGeometry height="60" width="190" x="220" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-113" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="4. Build length-prefixed deterministic input" vertex="1">
+          <mxGeometry height="60" width="190" x="220" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-114" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="Secret&#xa;(external configuration)" vertex="1">
+          <mxGeometry height="70" width="210" x="790" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-115" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;fontStyle=1;" value="5. Compute&lt;br&gt;HMAC-SHA-256&lt;br&gt;fingerprint" vertex="1">
+          <mxGeometry height="80" width="200" x="490" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-116" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="6a. Persist registry&#xa;update" vertex="1">
+          <mxGeometry height="60" width="230" x="430" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-117" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;fontSize=18;" value="6b. Persist integrity&#xa;evidence (data_hash)" vertex="1">
+          <mxGeometry height="60" width="250" x="740" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-118" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-107" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-115" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="260" />
+              <mxPoint x="590" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-119" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-112" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-113" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-120" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-115" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-121" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-115" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-122" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-116" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-123" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-117" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-124" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="170" width="560" x="320" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-125" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=20;fontStyle=1;" value="MySQL Database" vertex="1">
+          <mxGeometry height="40" width="560" x="320" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-126" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=18;" value="Operational registry&#xa;tables" vertex="1">
+          <mxGeometry height="60" width="220" x="360" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-127" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=18;" value="Application-managed&#xa;integrity tables" vertex="1">
+          <mxGeometry height="60" width="220" x="630" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-128" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-116" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-126" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="542" y="620" />
+              <mxPoint x="465" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lteHslnpNRE7AhUCwxSl-129" edge="1" parent="1" source="lteHslnpNRE7AhUCwxSl-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" target="lteHslnpNRE7AhUCwxSl-127" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="858" y="620" />
+              <mxPoint x="735" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

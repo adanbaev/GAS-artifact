@@ -161,12 +161,30 @@ public final class SecurityUtil {
     }
 
     public static String canonicalFreqString(OwnerModel owner, SiteModel site, FreqModel freq) {
-        // Строка должна формироваться детерминированно и строго в одном порядке.
         LinkedHashMap<String, String> fields = canonicalFreqFields(owner, site, freq);
-        return String.join("|", fields.values());
+        StringBuilder sb = new StringBuilder();
+        for (String value : fields.values()) {
+            String v = (value == null) ? "" : value;
+            sb.append(v.length()).append(':').append(v).append(';');
+        }
+        return sb.toString();
     }
 
     public static String freqDataHash(OwnerModel owner, SiteModel site, FreqModel freq) {
-        return sha256Hex(canonicalFreqString(owner, site, freq));
+        try {
+            String canonical = canonicalFreqString(owner, site, freq);
+            javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA256");
+            javax.crypto.spec.SecretKeySpec keySpec = new javax.crypto.spec.SecretKeySpec(
+                getSignatureSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            mac.init(keySpec);
+            byte[] hmac = mac.doFinal(canonical.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hmac) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("HMAC-SHA256 computation failed", e);
+        }
     }
 }

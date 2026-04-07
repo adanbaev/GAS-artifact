@@ -357,8 +357,8 @@ public class IntegrityService {
             FreqModel freq = current.getFreqModel();
 
             LinkedHashMap<String, String> fields = SecurityUtil.canonicalFreqFields(owner, site, freq);
-            String canonical = String.join("|", fields.values());
-            String actual = SecurityUtil.sha256Hex(canonical);
+            String canonical = SecurityUtil.canonicalFreqString(owner, site, freq);
+            String actual = SecurityUtil.freqDataHash(owner, site, freq);
 
             boolean ok = (expected != null && expected.equals(actual));
 

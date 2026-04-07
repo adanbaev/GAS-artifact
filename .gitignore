@@ -1,6 +1,6 @@
-src/main/resources/application.properties
-.env
-*.log
-target/
+﻿target/
 .idea/
 *.iml
+*.log
+.DS_Store
+Thumbs.db
