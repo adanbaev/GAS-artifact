@@ -70,7 +70,9 @@ Operational registry data and deployment secrets are excluded for confidentialit
 ## Versioning and citation
 
 Please cite the specific tagged release used in your work. Release-based citation is preferred over citation of the repository root.
+
 Citation metadata is provided in `CITATION.cff`.
+
 Archived release DOI: https://doi.org/10.5281/zenodo.19478931
 
 ## Authors
