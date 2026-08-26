@@ -1,24 +1,23 @@
 cff-version: 1.2.0
-message: "If you use this artifact, please cite the tagged software release."
+message: "If you use this artifact, please cite the associated article and the archived v1.3 record."
 title: "GAS-artifact"
 type: software
+version: "1.3.0"
 authors:
   - family-names: "Adanbaev"
     given-names: "Aibek"
   - family-names: "Sagymbaev"
     given-names: "Abdisamat"
-version: "1.2"
-date-released: 2026-06-08
 repository-code: "https://github.com/adanbaev/GAS-artifact"
-url: "https://github.com/adanbaev/GAS-artifact"
-license: "MIT"
-abstract: "Artifact repository containing selected implementation artifacts, benchmark outputs, figure files, plotting scripts, and supporting test materials for a study on application-layer integrity protection and temporal administrative control in centralized state registries."
+license: MIT
+abstract: >-
+  Selected implementation artifacts, tests, anonymized fixtures, raw benchmark
+  outputs, analysis scripts, tables, and figures for the study Application-Layer
+  Integrity Protection and Temporal Administrative Control for Centralized State
+  Registries: Implementation and Evaluation.
 keywords:
-  - "data integrity"
-  - "tamper evidence"
-  - "audit logging"
-  - "application security"
-  - "Spring Boot"
-  - "HMAC-SHA-256"
-  - "TRBAC"
-doi: "10.5281/zenodo.20587980"
+  - application-layer integrity
+  - temporal access control
+  - HMAC
+  - hash chain
+  - benchmark

@@ -1,0 +1,24 @@
+# Public, anonymized configuration template for a disposable artifact database.
+# Copy to the private/full GAS project only for local testing. Never commit real values.
+
+spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/gas_artifact_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC}
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME:gas_artifact_test}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:CHANGE_ME}
+spring.datasource.hikari.maximum-pool-size=64
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+
+# Supply strong independent values through environment variables.
+security.signature.secret=${SECURITY_SIGNATURE_SECRET:CHANGE_ME_FOR_TESTS_ONLY}
+security.integrity.chain-secret=${INTEGRITY_CHAIN_SECRET:CHANGE_ME_FOR_TESTS_ONLY}
+security.integrity.enabled=true
+
+security.trbac.work-start=09:00
+security.trbac.work-end=18:00
+security.trbac.timezone=Asia/Bishkek
+security.trbac.offhours-role=VIEWER
+security.trbac.enabled=false
+security.trbac.debug=false
+
+# The schema and fixture are applied explicitly; Spring must not initialize a live DB.
+spring.sql.init.mode=never

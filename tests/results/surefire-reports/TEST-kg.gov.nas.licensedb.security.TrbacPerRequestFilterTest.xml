@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.security.TrbacPerRequestFilterTest" time="1.2" tests="4" errors="0" skipped="0" failures="0">
+  <testcase name="disabledTrbac_doesNotModifyAuthentication" classname="kg.gov.nas.licensedb.security.TrbacPerRequestFilterTest" time="1.184"/>
+  <testcase name="offHours_downgradesOnlyForCurrentRequest_andRestoresOriginalAuthentication" classname="kg.gov.nas.licensedb.security.TrbacPerRequestFilterTest" time="0.006"/>
+  <testcase name="downstreamAuthenticationChange_isNotOverwrittenByFinallyRestore" classname="kg.gov.nas.licensedb.security.TrbacPerRequestFilterTest" time="0.002"/>
+  <testcase name="withinWorkingHours_preservesOriginalAuthority" classname="kg.gov.nas.licensedb.security.TrbacPerRequestFilterTest" time="0.002"/>
+</testsuite>

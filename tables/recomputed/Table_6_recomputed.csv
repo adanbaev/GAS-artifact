@@ -1,0 +1,6 @@
+n_updates,standard_median_tps,hmac_compute_median_tps,added_us_per_update,added_ci_low_us,added_ci_high_us,overhead_pct,overhead_ci_low_pct,overhead_ci_high_pct,standard_sd_total_ms,hmac_compute_sd_total_ms
+1000,497.5,310.2,1214,1207,1222,60.37,60.04,60.81,17,43
+5000,496.6,309.6,1216,1205,1224,60.39,59.58,60.80,78,260
+10000,480.4,301.8,1231,1129,1387,59.14,53.32,68.37,716,1073
+50000,473.1,296.0,1264,1214,1314,59.81,56.37,62.23,2611,3870
+100000,478.2,299.8,1244,1235,1255,59.51,58.86,60.22,1668,2660

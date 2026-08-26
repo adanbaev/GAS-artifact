@@ -1,0 +1,58 @@
+{
+  "analysis": "GAS-artifact v1.3",
+  "bootstrap_replicates": 200000,
+  "master_seed": 0,
+  "seed_note": "Neutral analysis seed; not a benchmark date or experimental parameter.",
+  "ci": "two-sided percentile bootstrap, 2.5th and 97.5th percentiles",
+  "independent_comparisons": [
+    "Tables 3-5"
+  ],
+  "paired_comparisons": [
+    "Table 6 by repeat",
+    "K-sensitivity by repeat"
+  ],
+  "validation": [
+    {
+      "dataset": "single",
+      "run_rows": 600,
+      "cells": 20,
+      "status": "PASS"
+    },
+    {
+      "dataset": "concurrent",
+      "run_rows": 384,
+      "cells": 24,
+      "status": "PASS"
+    },
+    {
+      "dataset": "isolation",
+      "run_rows": 300,
+      "cells": 10,
+      "status": "PASS"
+    },
+    {
+      "dataset": "ksens",
+      "run_rows": 150,
+      "cells": 5,
+      "status": "PASS"
+    }
+  ],
+  "inputs": {
+    "single": {
+      "file": "bench-results-revised-single-20260821-211651.csv",
+      "sha256": "73fba182ef630de24fd9cc831aba87d2d185eaa981eb1bfec977d4a38122ef1f"
+    },
+    "concurrent": {
+      "file": "bench-results-revised-concurrent-20260823-100240.csv",
+      "sha256": "685ec135557b18bc084bb1c38103c062cabcd1c0ef39dfca2ae492ea037ad6c0"
+    },
+    "isolation": {
+      "file": "bench-results-revised-isolation-20260823-011349.csv",
+      "sha256": "55dfea37aaec7023e5f4ccd5d8943e5b2ebf85b28847283da9e8cb9a8071a478"
+    },
+    "ksens": {
+      "file": "bench-results-revised-ksens-20260823-171330.csv",
+      "sha256": "2c66a0392cc7e3377bb9eee8d8d5ff0ea305bfc2f46e431b6b1e9bc11cae065a"
+    }
+  }
+}

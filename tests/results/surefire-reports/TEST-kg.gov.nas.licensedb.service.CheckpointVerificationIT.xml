@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.service.CheckpointVerificationIT" time="7.742" tests="4" errors="0" skipped="0" failures="0">
+  <testcase name="directModificationOfPersistedCheckpointEvent_isDetected" classname="kg.gov.nas.licensedb.service.CheckpointVerificationIT" time="0.411"/>
+  <testcase name="directModificationOfCheckpointHash_isDetected" classname="kg.gov.nas.licensedb.service.CheckpointVerificationIT" time="0.064"/>
+  <testcase name="directModificationOfCheckpointState_isDetected" classname="kg.gov.nas.licensedb.service.CheckpointVerificationIT" time="0.058"/>
+  <testcase name="finalizedTwoBatchCheckpointChain_verifiesSuccessfully" classname="kg.gov.nas.licensedb.service.CheckpointVerificationIT" time="0.085"/>
+</testsuite>
