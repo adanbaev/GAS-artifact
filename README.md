@@ -73,7 +73,7 @@ Please cite the specific tagged release used in your work. Release-based citatio
 
 Citation metadata is provided in `CITATION.cff`.
 
-Archived release DOI: https://doi.org/10.5281/zenodo.19478931
+Archived release DOI: https://doi.org/10.5281/zenodo.20587980
 
 ## Authors
 
