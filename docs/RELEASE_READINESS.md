@@ -22,10 +22,11 @@
 - The minimal public schema includes the `roles` table required by the full
   Spring application context.
 
-## Publication steps still requiring repository/Zenodo access
+## Publication verification completed
 
-1. Review the public Git diff and GitHub v1.3 release preview.
-2. Create the actual Zenodo v1.3 record and add its DOI to `CITATION.cff` and
-   the manuscript Data availability statement.
-3. Confirm that the published GitHub release asset and Zenodo deposit match the
-   reviewed ZIP checksum.
+1. The public Git diff was reviewed and GitHub release v1.3 was published.
+2. The Zenodo v1.3 record was published with the version-specific DOI
+   <https://doi.org/10.5281/zenodo.22113859>.
+3. The published GitHub release asset and Zenodo deposit were confirmed to
+   match the reviewed ZIP checksum:
+   `2bc7a1aeefcc6005896e05c5bc75529d927bd426ee1871c68b005cf8a96e5ba1`.

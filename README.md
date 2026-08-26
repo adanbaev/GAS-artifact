@@ -13,17 +13,16 @@ the deployable registry system.
 
 ## Release status
 
-This package is release-ready for the public GitHub/Zenodo v1.3 publication
-workflow.  The numerical-analysis and privacy checks pass.  The supplied Java
-tests were executed in the matching full private project against a disposable
-MySQL database: all 17 tests passed with zero failures, errors, or skips.  The
+This package was published as GitHub release v1.3 and archived in Zenodo.  The
+numerical-analysis and privacy checks pass.  The supplied Java tests were
+executed in the matching full private project against a disposable MySQL
+database: all 17 tests passed with zero failures, errors, or skips.  The
 verified, privacy-sanitized Maven Surefire reports are included under
 `tests/results/surefire-reports/`.
 
-The v1.3 Zenodo DOI is intentionally absent until the actual record exists.  Do
-not substitute an invented or provisional identifier; add the real DOI to
-`CITATION.cff` and the manuscript Data availability statement during the
-publication step.
+The version-specific Zenodo DOI for v1.3 is
+<https://doi.org/10.5281/zenodo.22113859>.  This DOI is recorded in
+`CITATION.cff` and should be used when citing this release.
 
 The restored v1.2 release remains separately available at
 <https://github.com/adanbaev/GAS-artifact/releases/tag/v1.2>.  It is not nested
@@ -97,5 +96,5 @@ included.  The public SQL fixture contains invented values only.  See
 ## License and citation
 
 The artifact is released under the MIT License.  Citation metadata are in
-`CITATION.cff`.  The final Zenodo DOI must be added only after the actual v1.3
-record is created.
+`CITATION.cff`.  The archived v1.3 record is available at
+<https://doi.org/10.5281/zenodo.22113859>.
