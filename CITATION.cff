@@ -7,8 +7,8 @@ authors:
     given-names: "Aibek"
   - family-names: "Sagymbaev"
     given-names: "Abdisamat"
-version: "1.1.1"
-date-released: 2026-04-09
+version: "1.2"
+date-released: 2026-06-08
 repository-code: "https://github.com/adanbaev/GAS-artifact"
 url: "https://github.com/adanbaev/GAS-artifact"
 license: "MIT"
@@ -21,4 +21,4 @@ keywords:
   - "Spring Boot"
   - "HMAC-SHA-256"
   - "TRBAC"
-doi: "10.5281/zenodo.19478931"
+doi: "10.5281/zenodo.20587980"
