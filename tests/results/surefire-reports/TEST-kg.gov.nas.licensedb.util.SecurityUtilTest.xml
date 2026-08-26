@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.003" tests="2" errors="0" skipped="0" failures="0">
+  <testcase name="generateDigitalSignature_changesWhenSecretChanges" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0"/>
+  <testcase name="freqDataHash_changesWhenProtectedFieldsChange" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.001"/>
+</testsuite>

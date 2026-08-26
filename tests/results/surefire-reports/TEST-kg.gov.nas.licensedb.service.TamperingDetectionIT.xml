@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.service.TamperingDetectionIT" time="0.032" tests="1" errors="0" skipped="0" failures="0">
+  <testcase name="tamperingIsDetectableByMismatchBetweenStoredEventHashAndCurrentStateHash" classname="kg.gov.nas.licensedb.service.TamperingDetectionIT" time="0.029"/>
+</testsuite>

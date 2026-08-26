@@ -1,0 +1,7 @@
+threads,standard_median_tps,fingerprint_median_tps,fingerprint_reduction_pct,fingerprint_ci_low_pct,fingerprint_ci_high_pct,checkpoint_median_tps,checkpoint_reduction_pct,checkpoint_ci_low_pct,checkpoint_ci_high_pct,strict_median_tps,strict_reduction_pct,strict_ci_low_pct,strict_ci_high_pct
+1,480.0,162.9,66.1,65.3,67.8,272.2,43.3,42.2,43.7,145.5,69.7,69.3,71.6
+2,917.7,297.9,67.5,65.5,68.3,476.6,48.1,45.5,50.9,272.5,70.3,68.9,71.8
+4,1257.5,470.4,62.6,61.1,64.6,686.6,45.4,43.5,47.7,303.1,75.9,74.9,77.0
+8,1338.0,671.0,49.8,49.0,52.3,644.5,51.8,50.7,54.0,309.1,76.9,76.4,77.6
+16,1266.9,685.8,45.9,43.5,49.2,521.2,58.9,58.3,60.0,297.7,76.5,76.0,77.4
+32,1253.5,934.2,25.5,23.3,26.9,596.5,52.4,51.6,52.7,265.9,78.8,78.4,79.3
