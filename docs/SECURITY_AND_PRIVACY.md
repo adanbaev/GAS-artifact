@@ -1,7 +1,7 @@
 # Security and privacy boundary
 
 The following supplied materials are intentionally excluded from the public
-v1.3 package:
+v1.3.1 package:
 
 - the full private `GAS` archive;
 - the manuscript DOCX and its author/tracked-change metadata;

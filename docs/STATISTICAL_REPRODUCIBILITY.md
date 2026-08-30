@@ -22,7 +22,8 @@ Relative to the printed manuscript intervals, the fresh deterministic run has:
 - a maximum CI-endpoint difference of 0.17 percentage points across Tables 3-5;
 - a maximum CI-endpoint difference of 0.01 percentage points for the Table 6
   overhead intervals;
-- a maximum difference of 1 microsecond for the Table 6 added-time intervals.
+- a maximum difference of 1 microsecond for the Table 6 added-time intervals;
+- a maximum CI-endpoint difference of 0.02 percentage points for K-sensitivity.
 
 These changes are Monte Carlo resampling variation and do not change any point
 estimate, ordering, conclusion, or reported performance range.  Both the exact

@@ -1,6 +1,6 @@
 # Test sources and safe execution
 
-## Verified execution included in v1.3
+## Verified execution included in v1.3.1
 
 The tests were executed on 2026-08-26 in the matching full private project using
 Windows PowerShell, Java 17.0.12, Maven 3.8.6, and MySQL 8.0.45.  DB integration
