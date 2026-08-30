@@ -1,4 +1,4 @@
-# v1.3 release-readiness checklist
+# v1.3.1 release-readiness checklist
 
 ## Passed in the release-ready package
 
@@ -9,7 +9,7 @@
   STRICT, and HMAC_COMPUTE semantics.
 - Tables 1-2 restored as public machine-readable files.
 - Tables 3-6 and K-sensitivity recomputed from raw runs.
-- Figures 1-6 and revised graphical abstract included in PDF/PNG form.
+- Figures 1-6 and the final graphical abstract included in PDF/PNG form.
 - Full private archive, manuscript, credentials, and private user seed data
   excluded.
 - Obsolete `MyUserDetailsServiceTrbacTest.java` excluded.
@@ -22,11 +22,11 @@
 - The minimal public schema includes the `roles` table required by the full
   Spring application context.
 
-## Publication verification completed
+## Final publication verification steps
 
-1. The public Git diff was reviewed and GitHub release v1.3 was published.
-2. The Zenodo v1.3 record was published with the version-specific DOI
-   <https://doi.org/10.5281/zenodo.22113859>.
-3. The published GitHub release asset and Zenodo deposit were confirmed to
-   match the reviewed ZIP checksum:
-   `2bc7a1aeefcc6005896e05c5bc75529d927bd426ee1871c68b005cf8a96e5ba1`.
+1. Review the public Git diff and GitHub v1.3.1 release preview.
+2. Verify that the reviewed ZIP is the asset associated with the GitHub v1.3.1
+   release and the version-specific Zenodo record
+   <https://doi.org/10.5281/zenodo.22164388>.
+3. Confirm that the GitHub release asset and Zenodo deposit match the reviewed
+   ZIP checksum.

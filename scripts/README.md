@@ -4,7 +4,7 @@
   plus K-sensitivity.
 - `grafik3_revised.py` through `grafik6_revised.py` regenerate the approved
   performance plots from the table medians.
-- `graphical_abstract_revised.py` regenerates the revised graphical abstract.
+- `graphical_abstract_final.py` regenerates the final graphical abstract.
 
 Install dependencies from the repository root:
 

@@ -1,3 +1,4 @@
+.gitattributes
 CHANGELOG.md
 CITATION.cff
 LICENSE
@@ -51,7 +52,6 @@ docs/STATISTICAL_REPRODUCIBILITY.md
 figures/Figure_1/Figure_1.drawio
 figures/Figure_1/Figure_1.pdf
 figures/Figure_1/Figure_1.png
-figures/Figure_2/Figure_2.drawio
 figures/Figure_2/Figure_2.pdf
 figures/Figure_2/Figure_2.png
 figures/Figure_3/Figure_3.pdf
@@ -62,8 +62,8 @@ figures/Figure_5/Figure_5.pdf
 figures/Figure_5/Figure_5.png
 figures/Figure_6/Figure_6.pdf
 figures/Figure_6/Figure_6.png
-figures/Graphical_Abstract/Graphical_Abstract_revised.pdf
-figures/Graphical_Abstract/Graphical_Abstract_revised.png
+figures/Graphical_Abstract/Graphical_Abstract_final.pdf
+figures/Graphical_Abstract/Graphical_Abstract_final.png
 figures/README.md
 requirements.txt
 scripts/README.md
@@ -72,7 +72,7 @@ scripts/grafik3_revised.py
 scripts/grafik4_revised.py
 scripts/grafik5_revised.py
 scripts/grafik6_revised.py
-scripts/graphical_abstract_revised.py
+scripts/graphical_abstract_final.py
 tables/README.md
 tables/manuscript/Table_1.csv
 tables/manuscript/Table_2.csv

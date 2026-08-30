@@ -1,4 +1,4 @@
-# GAS-artifact v1.3
+# GAS-artifact v1.3.1
 
 Public research artifact for the manuscript:
 
@@ -13,20 +13,21 @@ the deployable registry system.
 
 ## Release status
 
-This package was published as GitHub release v1.3 and archived in Zenodo.  The
-numerical-analysis and privacy checks pass.  The supplied Java tests were
-executed in the matching full private project against a disposable MySQL
-database: all 17 tests passed with zero failures, errors, or skips.  The
+This package is the reviewed payload for the public GitHub/Zenodo v1.3.1 release.
+The numerical-analysis and privacy checks pass.  The supplied Java
+tests were executed in the matching full private project against a disposable
+MySQL database: all 17 tests passed with zero failures, errors, or skips.  The
 verified, privacy-sanitized Maven Surefire reports are included under
 `tests/results/surefire-reports/`.
 
-The version-specific Zenodo DOI for v1.3 is
-<https://doi.org/10.5281/zenodo.22113859>.  This DOI is recorded in
-`CITATION.cff` and should be used when citing this release.
+The version-specific Zenodo record is available at
+<https://doi.org/10.5281/zenodo.22164388>.  The corresponding public GitHub
+release is available at
+<https://github.com/adanbaev/GAS-artifact/releases/tag/v1.3.1>.
 
 The restored v1.2 release remains separately available at
 <https://github.com/adanbaev/GAS-artifact/releases/tag/v1.2>.  It is not nested
-inside this v1.3 package.
+inside this v1.3.1 package.
 
 ## Contents
 
@@ -41,7 +42,7 @@ inside this v1.3 package.
 - `tables/manuscript/` - machine-readable copies of Tables 1-6 from the latest
   checked manuscript, including the previously missing Tables 1-2.
 - `tables/recomputed/` - Tables 3-6 and K-sensitivity regenerated from raw data.
-- `figures/` - Figures 1-6 and the revised graphical abstract.
+- `figures/` - Figures 1-6 and the final graphical abstract.
 - `scripts/` - statistical analysis and reproducible plotting scripts.
 - `docs/` - provenance, privacy, statistical, and release-readiness notes.
 - `SHA256SUMS.txt` - checksums for every release file except itself.
@@ -95,6 +96,5 @@ included.  The public SQL fixture contains invented values only.  See
 
 ## License and citation
 
-The artifact is released under the MIT License.  Citation metadata are in
-`CITATION.cff`.  The archived v1.3 record is available at
-<https://doi.org/10.5281/zenodo.22113859>.
+The artifact is released under the MIT License.  Citation metadata, including
+the version-specific Zenodo DOI, are in `CITATION.cff`.
