@@ -5,6 +5,7 @@ import kg.gov.nas.licensedb.dto.OwnerModel;
 import kg.gov.nas.licensedb.dto.SiteModel;
 import kg.gov.nas.licensedb.enums.FreqMode;
 import kg.gov.nas.licensedb.enums.FreqType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -12,6 +13,40 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SecurityUtilTest {
+
+    @BeforeEach
+    void configureTestSecrets() {
+        SecurityUtil.setSignatureSecret("unit-test-signature-secret");
+        SecurityUtil.setChainSecret("unit-test-chain-secret");
+    }
+
+    @Test
+    void signatureSecret_rejectsMissingBlankAndPlaceholderValues() {
+        assertAll(
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setSignatureSecret(null)),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setSignatureSecret("   ")),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setSignatureSecret("CHANGE_ME")),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setSignatureSecret("CHANGE_ME_FOR_TESTS_ONLY"))
+        );
+    }
+
+    @Test
+    void chainSecret_rejectsMissingBlankAndPlaceholderValues() {
+        assertAll(
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setChainSecret(null)),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setChainSecret("   ")),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setChainSecret("CHANGE_ME")),
+            () -> assertThrows(IllegalStateException.class,
+                () -> SecurityUtil.setChainSecret("CHANGE_ME_FOR_TESTS_ONLY"))
+        );
+    }
 
     @Test
     void generateDigitalSignature_changesWhenSecretChanges() {

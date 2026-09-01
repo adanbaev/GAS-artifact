@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 public final class SecurityUtil {
@@ -25,31 +26,52 @@ public final class SecurityUtil {
     private SecurityUtil() {}
 
     public static void setSignatureSecret(String secret) {
-        signatureSecret = (secret == null) ? null : secret.trim();
+        signatureSecret = requireConfiguredSecret("security.signature.secret", secret);
     }
 
     public static void setChainSecret(String secret) {
-        chainSecret = (secret == null) ? null : secret.trim();
+        chainSecret = requireConfiguredSecret("security.integrity.chain-secret", secret);
     }
 
     public static String getSignatureSecret() {
         String s = signatureSecret;
-        if (s != null && !s.isBlank()) return s;
-
-        s = System.getProperty("security.signature.secret");
-        if (s == null || s.isBlank()) s = System.getenv("SECURITY_SIGNATURE_SECRET");
-        if (s == null || s.isBlank()) s = "CHANGE_ME";
-        return s;
+        if (s == null || s.isBlank()) {
+            s = System.getProperty("security.signature.secret");
+        }
+        if (s == null || s.isBlank()) {
+            s = System.getenv("SECURITY_SIGNATURE_SECRET");
+        }
+        return requireConfiguredSecret("security.signature.secret", s);
     }
 
     public static String getChainSecret() {
         String s = chainSecret;
-        if (s != null && !s.isBlank()) return s;
+        if (s == null || s.isBlank()) {
+            s = System.getProperty("security.integrity.chain-secret");
+        }
+        if (s == null || s.isBlank()) {
+            s = System.getenv("INTEGRITY_CHAIN_SECRET");
+        }
+        return requireConfiguredSecret("security.integrity.chain-secret", s);
+    }
 
-        s = System.getProperty("security.integrity.chain-secret");
-        if (s == null || s.isBlank()) s = System.getenv("INTEGRITY_CHAIN_SECRET");
-        if (s == null || s.isBlank()) s = getSignatureSecret();
-        return s;
+    private static String requireConfiguredSecret(String propertyName, String secret) {
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException(
+                propertyName + " must be supplied with a non-blank value"
+            );
+        }
+
+        String normalized = secret.trim();
+        String upper = normalized.toUpperCase(Locale.ROOT);
+
+        if (upper.equals("CHANGE_ME") || upper.startsWith("CHANGE_ME_")) {
+            throw new IllegalStateException(
+                propertyName + " must not use a documented placeholder value"
+            );
+        }
+
+        return normalized;
     }
 
     public static String sha256Hex(String input) {

@@ -38,4 +38,7 @@ provenance is explicit rather than silently forcing a match.
   observations at each thread count; reduction recomputed from medians.
 - Table 6: paired resampling by repeat identifier; median-runtime difference and
   ratio recomputed for each resample.
-- K-sensitivity: paired resampling of matched repeat blocks.
+- K-sensitivity: paired resampling of 30 matched repeat blocks comprising five
+  cyclically order-balanced conditions: STANDARD, FINGERPRINT, and CHECKPOINT
+  at K = 50, 100, and 500.  FINGERPRINT is retained as a reference condition
+  for comparison with the main N = 100,000 series.

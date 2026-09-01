@@ -34,5 +34,6 @@ else
 fi
 
 export RUN_DB_IT=true
-"${mvn_cmd[@]}" -Dtest=CheckpointVerificationIT,IntegrityCheckpointAuditIT,TamperingDetectionIT test
+"${mvn_cmd[@]}" -Dmaven.test.skip=false -DskipTests=false \
+  -Dtest=CheckpointVerificationIT,IntegrityCheckpointAuditIT,TamperingDetectionIT test
 echo "Surefire reports: $project_dir/target/surefire-reports"

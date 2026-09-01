@@ -1,5 +1,5 @@
 {
-  "analysis": "GAS-artifact v1.3",
+  "analysis": "GAS-artifact v1.3.1",
   "bootstrap_replicates": 200000,
   "master_seed": 0,
   "seed_note": "Neutral analysis seed; not a benchmark date or experimental parameter.",

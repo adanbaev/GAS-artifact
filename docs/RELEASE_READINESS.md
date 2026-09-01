@@ -9,11 +9,12 @@
   STRICT, and HMAC_COMPUTE semantics.
 - Tables 1-2 restored as public machine-readable files.
 - Tables 3-6 and K-sensitivity recomputed from raw runs.
-- Figures 1-6 and the final graphical abstract included in PDF/PNG form.
+- Figures 1-6 and the final graphical abstract included in PDF/PNG form; the
+  editable Draw.io sources for Figures 1 and 2 are also included.
 - Full private archive, manuscript, credentials, and private user seed data
   excluded.
 - Obsolete `MyUserDetailsServiceTrbacTest.java` excluded.
-- Unit tests executed in the matching full project: 10 tests, zero failures,
+- Unit tests executed in the matching full project: 12 tests, zero failures,
   errors, or skips.
 - DB integration tests executed against the disposable `gas_artifact_test`
   schema and synthetic fixture: 7 tests, zero failures, errors, or skips.
@@ -21,6 +22,8 @@
   `tests/results/surefire-reports/`; suite/testcase results were preserved.
 - The minimal public schema includes the `roles` table required by the full
   Spring application context.
+- Required signature and integrity-chain secrets fail closed at startup; the
+  built-in placeholder and cross-secret fallback have been removed.
 
 ## Final publication verification steps
 

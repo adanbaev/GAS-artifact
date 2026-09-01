@@ -328,7 +328,7 @@ def main() -> int:
     k_sensitivity(datasets["ksens"], args.bootstrap_reps, args.seed, args.out_dir)
 
     metadata = {
-        "analysis": "GAS-artifact v1.3",
+        "analysis": "GAS-artifact v1.3.1",
         "bootstrap_replicates": args.bootstrap_reps,
         "master_seed": args.seed,
         "seed_note": "Neutral analysis seed; not a benchmark date or experimental parameter.",

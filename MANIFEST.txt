@@ -32,6 +32,7 @@ code/src/main/java/kg/gov/nas/licensedb/enums/Region.java
 code/src/main/java/kg/gov/nas/licensedb/enums/State.java
 code/src/main/java/kg/gov/nas/licensedb/repository/TrbacSettingsRepository.java
 code/src/main/java/kg/gov/nas/licensedb/security/TrbacPerRequestFilter.java
+code/src/main/java/kg/gov/nas/licensedb/security/WebSecurityConfig.java
 code/src/main/java/kg/gov/nas/licensedb/service/FreqCrudService.java
 code/src/main/java/kg/gov/nas/licensedb/service/IntegrityService.java
 code/src/main/java/kg/gov/nas/licensedb/service/TrbacSettingsService.java
@@ -52,6 +53,7 @@ docs/STATISTICAL_REPRODUCIBILITY.md
 figures/Figure_1/Figure_1.drawio
 figures/Figure_1/Figure_1.pdf
 figures/Figure_1/Figure_1.png
+figures/Figure_2/Figure_2.drawio
 figures/Figure_2/Figure_2.pdf
 figures/Figure_2/Figure_2.png
 figures/Figure_3/Figure_3.pdf

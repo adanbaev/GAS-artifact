@@ -23,5 +23,6 @@ else
   exit 2
 fi
 
-"${mvn_cmd[@]}" -Dtest=TrbacPerRequestFilterTest,IntegrityServiceTest,SecurityUtilTest test
+"${mvn_cmd[@]}" -Dmaven.test.skip=false -DskipTests=false \
+  -Dtest=TrbacPerRequestFilterTest,IntegrityServiceTest,SecurityUtilTest test
 echo "Surefire reports: $project_dir/target/surefire-reports"

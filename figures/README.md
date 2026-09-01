@@ -1,8 +1,9 @@
 # Figures
 
-- Figure 1 includes vector PDF, high-resolution PNG, and an editable Draw.io
-  source. Figure 2 includes the final manuscript PDF and a public PNG
-  rasterization at 300 dpi; the superseded Draw.io source is not included.
+- Figure 1 includes the final manuscript PDF, a 300-dpi PNG export of the same
+  figure, and the corresponding editable Draw.io source.
+- Figure 2 includes the final manuscript PDF, a 300-dpi PNG rasterization of
+  that PDF, and the corresponding editable Draw.io source.
 - Figures 3-6 include manuscript PDF and high-resolution PNG files.
 - `Graphical_Abstract/` contains the final graphical abstract in PDF and PNG.
 

@@ -16,7 +16,12 @@ foreach ($Name in $Required) {
 
 Set-Location $ProjectDir
 $env:RUN_DB_IT = "true"
-$MavenArgs = @("-Dtest=CheckpointVerificationIT,IntegrityCheckpointAuditIT,TamperingDetectionIT", "test")
+$MavenArgs = @(
+    "-Dmaven.test.skip=false",
+    "-DskipTests=false",
+    "-Dtest=CheckpointVerificationIT,IntegrityCheckpointAuditIT,TamperingDetectionIT",
+    "test"
+)
 
 if (Test-Path ".\mvnw.cmd") {
     & ".\mvnw.cmd" @MavenArgs
