@@ -10,14 +10,22 @@ v1.3.1 package:
 - the private `data.sql` containing a user record;
 - operational registry rows and production secrets.
 
-The public configuration contains placeholders only.  The SQL fixture contains
-one invented owner/site/frequency tuple and no person, organization, account,
-password hash, production identifier, or operational measurement.
+The public configuration contains no embedded credential or secret value.
+Datasource credentials and both required secrets are supplied externally; the
+application fails at startup when either secret is absent, blank, or a
+documented placeholder.  The SQL fixture contains one invented
+owner/site/frequency tuple and no person, organization, account, password hash,
+production identifier, or operational measurement.
 
 The selected Java sources may contain public package names and generic domain
 terminology, but no embedded datasource password, HMAC secret, email address,
 or registry row is intended to be present.  `SHA256SUMS.txt` permits later
 verification that the reviewed files were not silently changed.
+
+`WebSecurityConfig.java` is included to make the TRBAC filter-chain placement
+and bypass boundary inspectable.  Non-functional comments were removed; the
+executable filter ordering and request matchers are unchanged from the supplied
+private source.
 
 The generated Surefire XML originally contained Maven's automatically captured
 local system properties, including a Windows username, absolute paths, and the

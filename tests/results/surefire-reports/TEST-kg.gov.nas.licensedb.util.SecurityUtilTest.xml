@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.003" tests="2" errors="0" skipped="0" failures="0">
-  <testcase name="generateDigitalSignature_changesWhenSecretChanges" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0"/>
-  <testcase name="freqDataHash_changesWhenProtectedFieldsChange" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.001"/>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.014" tests="4" errors="0" skipped="0" failures="0">
+  <testcase name="chainSecret_rejectsMissingBlankAndPlaceholderValues" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.006"/>
+  <testcase name="generateDigitalSignature_changesWhenSecretChanges" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.004"/>
+  <testcase name="freqDataHash_changesWhenProtectedFieldsChange" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0"/>
+  <testcase name="signatureSecret_rejectsMissingBlankAndPlaceholderValues" classname="kg.gov.nas.licensedb.util.SecurityUtilTest" time="0.002"/>
 </testsuite>

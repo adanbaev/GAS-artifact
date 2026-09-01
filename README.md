@@ -16,7 +16,7 @@ the deployable registry system.
 This package is the reviewed payload for the public GitHub/Zenodo v1.3.1 release.
 The numerical-analysis and privacy checks pass.  The supplied Java
 tests were executed in the matching full private project against a disposable
-MySQL database: all 17 tests passed with zero failures, errors, or skips.  The
+MySQL database: all 19 tests passed with zero failures, errors, or skips.  The
 verified, privacy-sanitized Maven Surefire reports are included under
 `tests/results/surefire-reports/`.
 
@@ -32,11 +32,13 @@ inside this v1.3.1 package.
 ## Contents
 
 - `code/` - selected, article-relevant Java implementation and benchmark
-  sources; documented as a non-standalone extract.
+  sources, including the explicit Spring Security registration and exclusion
+  boundary for `TrbacPerRequestFilter`; documented as a non-standalone extract.
 - `tests/` - current unit/integration test sources, guarded launch scripts, and
   verified privacy-sanitized Surefire reports.
   The obsolete `MyUserDetailsServiceTrbacTest.java` is deliberately excluded.
-- `config/` - public configuration template containing placeholders only.
+- `config/` - public configuration template with externalized credentials and
+  fail-closed secret settings.
 - `db/` - minimal schema plus one wholly synthetic registry fixture.
 - `data/raw/` - four unchanged run-level benchmark CSV files.
 - `tables/manuscript/` - machine-readable copies of Tables 1-6 from the latest

@@ -19,8 +19,12 @@ Important entry points:
   state, and checkpoints.
 - `service/FreqCrudService.java` and `dao/FreqDao.java` - measured service-layer
   update and fresh database re-read.
-- `util/SecurityUtil.java` - canonical 23-field HMAC material.
-- `security/TrbacPerRequestFilter.java` and `service/TrbacSettingsService.java`
-  - per-request temporal authority control.
+- `util/SecurityUtil.java` - canonical 23-field HMAC material and fail-closed
+  external-secret resolution.
+- `security/TrbacPerRequestFilter.java`, `security/WebSecurityConfig.java`, and
+  `service/TrbacSettingsService.java` - per-request temporal authority control,
+  explicit placement immediately after `SecurityContextPersistenceFilter`,
+  and the filter-chain exclusion boundary.
 
-The files are copied unchanged from the supplied latest private-code archive.
+Except for the documented comment-only sanitization of `WebSecurityConfig.java`,
+the files are copied unchanged from the supplied latest private-code archive.

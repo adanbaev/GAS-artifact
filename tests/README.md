@@ -2,10 +2,11 @@
 
 ## Verified execution included in v1.3.1
 
-The tests were executed on 2026-08-26 in the matching full private project using
-Windows PowerShell, Java 17.0.12, Maven 3.8.6, and MySQL 8.0.45.  DB integration
+The tests were executed on 2026-08-30 in the matching full private project using
+Windows 10, Amazon Corretto 17.0.20.1, IntelliJ IDEA's bundled Maven 3, and
+MySQL 8.0.45.  DB integration
 tests used the disposable `gas_artifact_test` schema created from
-`db/schema_artifact.sql` and `db/fixture_artifact.sql`.  The result was 17 tests,
+`db/schema_artifact.sql` and `db/fixture_artifact.sql`.  The result was 19 tests,
 zero failures, zero errors, and zero skips.
 
 Verified reports are included under `tests/results/surefire-reports/`.  See
@@ -41,7 +42,9 @@ mysql -u root -p gas_artifact_test < db/fixture_artifact.sql
 
 Copy `config/application-artifact.properties.example` into an appropriate test
 profile in the full private project, or provide all values through environment
-variables.  Use non-production secrets.
+variables.  Use non-production, non-blank secrets.  The application fails at
+startup when either required secret is absent, blank, or a documented
+placeholder.
 
 ## Unit tests
 

@@ -17,11 +17,7 @@ public class SecuritySecretsConfig {
 
     @PostConstruct
     public void init() {
-        if (signatureSecret != null && !signatureSecret.isBlank()) {
-            SecurityUtil.setSignatureSecret(signatureSecret);
-        }
-        if (chainSecret != null && !chainSecret.isBlank()) {
-            SecurityUtil.setChainSecret(chainSecret);
-        }
+        SecurityUtil.setSignatureSecret(signatureSecret);
+        SecurityUtil.setChainSecret(chainSecret);
     }
 }

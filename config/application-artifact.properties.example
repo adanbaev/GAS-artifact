@@ -3,14 +3,15 @@
 
 spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/gas_artifact_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME:gas_artifact_test}
-spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:CHANGE_ME}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:}
 spring.datasource.hikari.maximum-pool-size=64
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 
-# Supply strong independent values through environment variables.
-security.signature.secret=${SECURITY_SIGNATURE_SECRET:CHANGE_ME_FOR_TESTS_ONLY}
-security.integrity.chain-secret=${INTEGRITY_CHAIN_SECRET:CHANGE_ME_FOR_TESTS_ONLY}
+# Supply explicit non-blank values through environment variables.
+# Application startup fails if either value is absent, blank, or a documented placeholder.
+security.signature.secret=${SECURITY_SIGNATURE_SECRET:}
+security.integrity.chain-secret=${INTEGRITY_CHAIN_SECRET:}
 security.integrity.enabled=true
 
 security.trbac.work-start=09:00

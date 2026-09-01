@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.172" tests="4" errors="0" skipped="0" failures="0">
-  <testcase name="check_detectsBrokenChain_whenLogIsTampered" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.103"/>
-  <testcase name="logUpdate_appendsLog_andAdvancesLastHash" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.049"/>
-  <testcase name="logUpdate_chainGrowsLinearly_prevHashEqualsPreviousChainHash" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.007"/>
-  <testcase name="check_detectsDataTampering_whenDbChangedOutsideApp" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.009"/>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.241" tests="4" errors="0" skipped="0" failures="0">
+  <testcase name="check_detectsBrokenChain_whenLogIsTampered" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.131"/>
+  <testcase name="logUpdate_appendsLog_andAdvancesLastHash" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.064"/>
+  <testcase name="logUpdate_chainGrowsLinearly_prevHashEqualsPreviousChainHash" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.021"/>
+  <testcase name="check_detectsDataTampering_whenDbChangedOutsideApp" classname="kg.gov.nas.licensedb.service.IntegrityServiceTest" time="0.023"/>
 </testsuite>

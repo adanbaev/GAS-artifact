@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" agent="Codex" version="24.7.17">
+  <diagram id="figure2-optimal" name="Figure 2">
+    <mxGraphModel dx="1300" dy="1685" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="1685" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n1" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;1. Per-request&lt;br&gt;TRBAC&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;Authenticated request&lt;br&gt;settings + current&lt;br&gt;authority&lt;br&gt;LocalTime.now(zone)&lt;br&gt;off-hours: temporary&lt;br&gt;authority&lt;br&gt;restored in finally&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#EAF3F8;strokeColor=#3E6B8F;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="25" y="20" width="250" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;2. Successful registry UPDATE&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;Application: owner -&amp;gt; optional site -&amp;gt; freq&lt;br&gt;(site is written only if siteId &amp;gt; 0)&lt;br&gt;Benchmark (all reported timings):&lt;br&gt;updateFreqOnly() -&amp;gt; freq only&lt;br&gt;Legacy signature (benchmark disabled):&lt;br&gt;SHA-256(ownerName + nominal +&lt;br&gt;issueDate + S_secret)&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#EAF3F8;strokeColor=#3E6B8F;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="305" y="20" width="430" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19px&quot;&gt;&lt;b&gt;3. Integrity&lt;br&gt;enabled?&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFF4D6;strokeColor=#C89B2B;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rhombus;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="755" y="60" width="210" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="end" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;STANDARD -&amp;gt;&lt;br&gt;End&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;IntegrityService&lt;br&gt;disabled&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FCEAEA;strokeColor=#C64848;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="1035" y="70" width="230" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="diagnostic" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;HMAC_COMPUTE&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18px&quot;&gt;from STANDARD/End; integrity off&lt;br&gt;re-read + HMAC: steps 4, 6, 7&lt;br&gt;freqDao.getById() +&lt;br&gt;SecurityUtil.freqDataHash()&lt;br&gt;no evidence persistence&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#F4F4F4;strokeColor=#777777;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="930" y="199" width="345" height="142" as="geometry" />
+        </mxCell>
+        <mxCell id="common" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 22px&quot;&gt;&lt;b&gt;Common UPDATE evidence path&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#EAF5EC;strokeColor=#3A8F55;strokeWidth=2.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="25" y="350" width="1250" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="tx" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;&lt;b&gt;logUpdateById(freq_id): public, proxy-invoked @Transactional&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;All InnoDB writes of the selected evidence strategy share this transaction&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#DCEFE1;strokeColor=#3A8F55;strokeWidth=1.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="55" y="393" width="1190" height="67" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;4. Fresh DB re-read&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;freq + site + owner&lt;br&gt;one LEFT JOIN by freq_id&lt;br&gt;direct JDBC connection&lt;br&gt;not transaction-bound&lt;br&gt;persisted state&lt;br&gt;not form input&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3A8F55;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="55" y="480" width="310" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;5. Event context&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;action = UPDATE&lt;br&gt;event_ms&lt;br&gt;actor or SYSTEM&lt;br&gt;INSERT is outside&lt;br&gt;the evaluated scope&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3A8F55;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="385" y="480" width="220" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;6. Canonical input D_i&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;23 protected fields&lt;br&gt;4 owner + 7 site + 12 freq&lt;br&gt;fixed order&lt;br&gt;each value: len(v):v;&lt;br&gt;null / missing -&amp;gt; empty&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3A8F55;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="625" y="480" width="280" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;7. HMAC evidence&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;data_hash = HMAC-SHA-256&lt;br&gt;key: S_secret&lt;br&gt;message: D_i&lt;br&gt;64 lowercase hex characters&lt;br&gt;freshly re-read state is hashed&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3A8F55;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="925" y="480" width="320" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="failure" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;&lt;b&gt;Missing/invalid row -&amp;gt; return; SQLException -&amp;gt; stdout + return.&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;The MyISAM UPDATE remains committed; no evidence row is written.&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFF7E6;strokeColor=#D97904;strokeWidth=1.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="55" y="690" width="1190" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="route" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 20px&quot;&gt;&lt;b&gt;8. Route by configured Strategy&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;FINGERPRINT &amp;lt;- HMAC_ONLY&lt;br&gt;CHECKPOINT &amp;lt;- HMAC_CHECKPOINT&lt;br&gt;STRICT &amp;lt;- HMAC_STRICT&lt;br&gt;Configured S_secret and S_chain come from env/properties, never from the database&lt;br&gt;Both secrets are required; startup fails if either is absent, blank, or set to a documented placeholder.&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#F4F4F4;strokeColor=#777777;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="25" y="785" width="1250" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="finger" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 22px&quot;&gt;&lt;b&gt;FINGERPRINT&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;unchained&lt;br&gt;per write&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFF2E5;strokeColor=#D97904;strokeWidth=2.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="25" y="960" width="280" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;9A. Persist one&lt;br&gt;event row&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;freq_integrity_event&lt;br&gt;event metadata&lt;br&gt;+ data_hash&lt;br&gt;InnoDB&lt;br&gt;no cryptographic link&lt;br&gt;to preceding rows&lt;br&gt;commit / return&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#D97904;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="39" y="1052" width="252" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="checkpoint" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 22px&quot;&gt;&lt;b&gt;CHECKPOINT&lt;br&gt;volatile batch + periodic chained checkpoint&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#EAF3F8;strokeColor=#3E6B8F;strokeWidth=2.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="330" y="960" width="610" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;9B. Append under checkpointLock&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;pending_root starts at BATCH_GENESIS&lt;br&gt;root&amp;#x27; = SHA-256(root | event_ms | actor | action |&lt;br&gt;freq_id | data_hash | S_chain); pending_count++&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3E6B8F;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="355" y="1052" width="560" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;&lt;b&gt;pending_count&lt;br&gt;&amp;gt;= K?&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFF4D6;strokeColor=#C89B2B;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rhombus;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="365" y="1197" width="240" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="c_return" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;&lt;b&gt;Return&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;batch stays&lt;br&gt;in JVM&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3E6B8F;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="640" y="1212" width="180" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;&lt;b&gt;Flush in the same evidence transaction&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;batch INSERT; end_id = max(id)&lt;br&gt;start_id = end_id - count + 1&lt;br&gt;lock integrity_checkpoint_state FOR UPDATE&lt;br&gt;checkpoint_hash = SHA-256(prev | batch_no |&lt;br&gt;start_id | end_id | count | root | S_chain)&lt;br&gt;insert checkpoint + update state&lt;br&gt;reset BATCH_GENESIS; commit / return&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#3E6B8F;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="355" y="1315" width="560" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="strict" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 22px&quot;&gt;&lt;b&gt;STRICT&lt;br&gt;global chain, per write&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#F0ECF8;strokeColor=#7656A5;strokeWidth=2.6;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="965" y="960" width="310" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;9C. Lock chain state&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;integrity_chain_state&lt;br&gt;SELECT ... FOR UPDATE&lt;br&gt;prev = GENESIS when&lt;br&gt;last_hash is empty&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#7656A5;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="985" y="1052" width="270" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;Compute chain_hash&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;chain_hash = SHA-256(&lt;br&gt;prev | event_ms |&lt;br&gt;actor | action |&lt;br&gt;freq_id | data_hash |&lt;br&gt;S_chain)&lt;br&gt;INSERT&lt;br&gt;freq_integrity_log&lt;br&gt;UPDATE&lt;br&gt;integrity_chain_state&lt;br&gt;(last_hash)&lt;br&gt;commit / return&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#FFFFFF;strokeColor=#7656A5;strokeWidth=2.2;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="985" y="1207" width="270" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="&lt;div style=&quot;text-align:center&quot;&gt;&lt;font style=&quot;font-size: 19.5px&quot;&gt;&lt;b&gt;Persistence and verification boundaries&lt;/b&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:left&quot;&gt;&lt;font style=&quot;font-size: 18.5px&quot;&gt;The MyISAM registry UPDATE is outside InnoDB evidence rollback.&lt;br&gt;An unfinished CHECKPOINT batch is JVM-volatile across restart; DB rollback does not restore it.&lt;br&gt;Evidence remains in the same writable DB: verification shows retained-state consistency only.&lt;br&gt;Freshness/completeness after consistent suffix deletion requires an external anchor.&lt;/font&gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=#F4F4F4;strokeColor=#777777;strokeWidth=1.8;align=center;verticalAlign=middle;spacing=14;spacingLeft=14;spacingRight=14;rounded=1;arcSize=8;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="25" y="1540" width="1250" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="0" y="125" as="sourcePoint" />
+            <mxPoint x="25" y="125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e1" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="275" y="125" as="sourcePoint" />
+            <mxPoint x="305" y="125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="735" y="125" as="sourcePoint" />
+            <mxPoint x="755" y="125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="965" y="125" as="sourcePoint" />
+            <mxPoint x="1035" y="125" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_diag" value="" style="endArrow=none;html=1;rounded=0;edgeStyle=none;strokeColor=#777777;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="180" as="sourcePoint" />
+            <mxPoint x="1102" y="199" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1150" y="190" />
+              <mxPoint x="1102" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="860" y="190" as="sourcePoint" />
+            <mxPoint x="860" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="575" as="sourcePoint" />
+            <mxPoint x="385" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="605" y="575" as="sourcePoint" />
+            <mxPoint x="625" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="905" y="575" as="sourcePoint" />
+            <mxPoint x="925" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="760" as="sourcePoint" />
+            <mxPoint x="650" y="785" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" value="" style="endArrow=none;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="930" as="sourcePoint" />
+            <mxPoint x="650" y="937" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" value="" style="endArrow=none;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="937" as="sourcePoint" />
+            <mxPoint x="1120" y="937" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="937" as="sourcePoint" />
+            <mxPoint x="165" y="1052" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="635" y="937" as="sourcePoint" />
+            <mxPoint x="635" y="1052" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1120" y="937" as="sourcePoint" />
+            <mxPoint x="1120" y="1052" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="635" y="1187" as="sourcePoint" />
+            <mxPoint x="485" y="1197" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="635" y="1192" />
+              <mxPoint x="485" y="1192" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="605" y="1250" as="sourcePoint" />
+            <mxPoint x="640" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="1302" as="sourcePoint" />
+            <mxPoint x="485" y="1315" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" value="" style="endArrow=classic;html=1;rounded=0;edgeStyle=none;strokeColor=#17232E;strokeWidth=1.5;endSize=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1120" y="1187" as="sourcePoint" />
+            <mxPoint x="1120" y="1207" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l_no" value="No" style="text;html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=none;strokeColor=none;align=center;verticalAlign=middle;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="975" y="94" width="45" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l_yes" value="Yes" style="text;html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=none;strokeColor=none;align=center;verticalAlign=middle;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="872" y="224" width="45" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l_cno" value="No" style="text;html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=none;strokeColor=none;align=center;verticalAlign=middle;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="604" y="1215" width="34" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="l_cyes" value="Yes" style="text;html=1;whiteSpace=wrap;fontFamily=Helvetica;fontColor=#17232E;fillColor=none;strokeColor=none;align=center;verticalAlign=middle;fontSize=18.5;" vertex="1" parent="1">
+          <mxGeometry x="522" y="1286" width="38" height="24" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

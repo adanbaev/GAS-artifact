@@ -1,7 +1,12 @@
 param([string]$ProjectDir = ".")
 $ErrorActionPreference = "Stop"
 Set-Location $ProjectDir
-$MavenArgs = @("-Dtest=TrbacPerRequestFilterTest,IntegrityServiceTest,SecurityUtilTest", "test")
+$MavenArgs = @(
+    "-Dmaven.test.skip=false",
+    "-DskipTests=false",
+    "-Dtest=TrbacPerRequestFilterTest,IntegrityServiceTest,SecurityUtilTest",
+    "test"
+)
 
 if (Test-Path ".\mvnw.cmd") {
     & ".\mvnw.cmd" @MavenArgs
